@@ -4,7 +4,7 @@ spring:
         encoding: CP1251
 
 quiz:
-    passNumber: 3
-    resourcePath: /test.csv
+    pass-number: 3
+    resource-path: /test.csv
 
 locale: ru-RU

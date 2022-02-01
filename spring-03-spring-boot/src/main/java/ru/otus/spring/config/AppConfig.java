@@ -18,10 +18,10 @@ import java.io.IOException;
 @Configuration
 public class AppConfig {
 
-    @Value("${quiz.resourcePath}")
+    @Value("${quiz.resource-path}")
     String resourcePath;
 
-    @Value("${quiz.passNumber}")
+    @Value("${quiz.pass-number}")
     int passNumber;
 
     @Bean

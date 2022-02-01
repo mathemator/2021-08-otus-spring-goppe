@@ -3,6 +3,7 @@ package ru.otus.spring;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import ru.otus.spring.domain.Person;
 import ru.otus.spring.message.MessageProvider;
 import ru.otus.spring.quiz.Quiz;
@@ -14,8 +15,7 @@ import java.util.Scanner;
 public class SpringDemoApplication {
 
     public static void main(String[] args) {
-        ApplicationContext ctx = SpringApplication.run(SpringDemoApplication.class, args);
-
+        ConfigurableApplicationContext ctx = SpringApplication.run(SpringDemoApplication.class, args);
         MessageProvider messageProvider = ctx.getBean(MessageProvider.class);
 
         Scanner scanner = new Scanner(System.in);
@@ -33,6 +33,7 @@ public class SpringDemoApplication {
 
         Quiz quiz = ctx.getBean(Quiz.class);
         quiz.display();
+        ctx.close();
     }
 
 }
