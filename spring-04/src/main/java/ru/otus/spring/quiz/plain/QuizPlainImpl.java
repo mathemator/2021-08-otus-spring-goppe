@@ -15,12 +15,13 @@ public class QuizPlainImpl implements Quiz {
     private List<String> plainTextLines;
 
     public QuizPlainImpl(String resourcePath) throws IOException {
-        plainTextLines = new ArrayList<>();
-        InputStream inputStream = getClass().getResourceAsStream(resourcePath);
-        InputStreamReader streamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
-        BufferedReader reader = new BufferedReader(streamReader);
-        for (String line; (line = reader.readLine()) != null; ) {
-            plainTextLines.add(line);
+        try (InputStream inputStream = getClass().getResourceAsStream(resourcePath)) {
+            plainTextLines = new ArrayList<>();
+            InputStreamReader streamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+            BufferedReader reader = new BufferedReader(streamReader);
+            for (String line; (line = reader.readLine()) != null; ) {
+                plainTextLines.add(line);
+            }
         }
     }
 

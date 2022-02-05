@@ -16,7 +16,6 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 @RequiredArgsConstructor
 public class QuizAdvancedImpl implements Quiz {
@@ -27,18 +26,16 @@ public class QuizAdvancedImpl implements Quiz {
     private final MessageProvider messageProvider;
     private final int passNum;
 
-    private List<Question> questions;
-    private int currentQuizResult;
-
     @Override
     public PassageStatus display() {
+        List<Question> questions;
         try {
-            prepareQuestions();
+            questions = getQuestions();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        currentQuizResult = 0;
+        int currentQuizResult = 0;
         for (Question question : questions) {
             ioService.out(question.getQuestionText() + " "
                     + messageProvider.getMessage("strings.choose-answer") + ": ");
@@ -57,13 +54,15 @@ public class QuizAdvancedImpl implements Quiz {
         return result;
     }
 
-    private void prepareQuestions() throws IOException {
-        questions = new ArrayList<>();
-        InputStream inputStream = getClass().getResourceAsStream(resourcePath);
-        InputStreamReader streamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
-        BufferedReader reader = new BufferedReader(streamReader);
-        for (String line; (line = reader.readLine()) != null; ) {
-            questions.add(questionsParser.fromLine(line));
+    private List<Question> getQuestions() throws IOException {
+        List<Question> questions = new ArrayList<>();
+        try (InputStream inputStream = getClass().getResourceAsStream(resourcePath)) {
+            InputStreamReader streamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+            BufferedReader reader = new BufferedReader(streamReader);
+            for (String line; (line = reader.readLine()) != null; ) {
+                questions.add(questionsParser.fromLine(line));
+            }
         }
+        return questions;
     }
 }
