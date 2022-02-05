@@ -35,13 +35,13 @@ public class AppConfig {
     }
 
     @Bean
-    public QuestionCsvLineParser questionCsvLineParser() {
+    public QuestionParser questionParser() {
         return new QuestionCsvLineParser();
     }
 
     @Bean
-    public Quiz quiz(QuestionCsvLineParser questionCsvLineParser, MessageProvider messageProvider) throws IOException {
-        return new QuizAdvancedImpl(questionCsvLineParser, resourcePath, messageProvider, passNumber);
+    public Quiz quiz(QuestionParser questionParser, MessageProvider messageProvider) throws IOException {
+        return new QuizAdvancedImpl(questionParser, resourcePath, messageProvider, passNumber);
     }
 
 }

@@ -1,6 +1,7 @@
 package ru.otus.spring.quiz.advanced;
 
 
+import lombok.RequiredArgsConstructor;
 import ru.otus.spring.message.MessageProvider;
 import ru.otus.spring.quiz.PassageStatus;
 import ru.otus.spring.quiz.Quiz;
@@ -16,22 +17,46 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+@RequiredArgsConstructor
 public class QuizAdvancedImpl implements Quiz {
 
     private final QuestionParser questionsParser;
+    private final String resourcePath;
     private final MessageProvider messageProvider;
     private final int passNum;
 
     private List<Question> questions;
     private int currentQuizResult;
 
+    @Override
+    public PassageStatus display() {
+        try {
+            prepareQuestions();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
-    public QuizAdvancedImpl(QuestionParser questionsParser, String resourcePath,
-                            MessageProvider messageProvider, int passNum) throws IOException {
-        this.questionsParser = questionsParser;
-        this.messageProvider = messageProvider;
-        this.passNum = passNum;
+        currentQuizResult = 0;
+        Scanner scanner = new Scanner(System.in);
+        for (Question question : questions) {
+            System.out.println(question.getQuestionText() + " "
+                    + messageProvider.getMessage("strings.choose-answer") + ": ");
+            for (int i = 1; i <= question.getAnswers().size(); i++) {
+                System.out.println(i + ". " + question.getAnswers().get(i - 1));
+            }
+            int choice = scanner.nextInt();
+            if (choice == question.getCorrectAnswerNum()) {
+                currentQuizResult++;
+            }
+        }
+        PassageStatus result = currentQuizResult >= passNum ? PassageStatus.SUCCESS : PassageStatus.FAILED;
+        String resultString = result == PassageStatus.SUCCESS ? messageProvider.getMessage("strings.success") :
+                messageProvider.getMessage("strings.failed");
+        System.out.println(messageProvider.getMessage("strings.answer-thank") + ": " + resultString);
+        return result;
+    }
 
+    private void prepareQuestions() throws IOException {
         questions = new ArrayList<>();
         InputStream inputStream = getClass().getResourceAsStream(resourcePath);
         InputStreamReader streamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
@@ -40,26 +65,4 @@ public class QuizAdvancedImpl implements Quiz {
             questions.add(questionsParser.fromLine(line));
         }
     }
-
-    @Override
-    public PassageStatus display() {
-        currentQuizResult = 0;
-        Scanner scanner = new Scanner(System.in);
-        for (Question question : questions) {
-            System.out.println(messageProvider.getMessage(question.getQuestionText()) + " "
-                    + messageProvider.getMessage("strings.choose-answer") + ": ");
-            for (int i = 1; i <= question.getAnswers().size(); i++) {
-                System.out.println(i + ". " + messageProvider.getMessage(question.getAnswers().get(i - 1)));
-            }
-            int choice = scanner.nextInt();
-            if (choice == question.getCorrectAnswerNum()) {
-                currentQuizResult++;
-            }
-        }
-        PassageStatus result = currentQuizResult >= passNum ? PassageStatus.SUCCESS : PassageStatus.FAILED;
-        System.out.println(messageProvider.getMessage("strings.answer-thank") + ": " +
-                messageProvider.getMessage("strings." + result.toString().toLowerCase()));
-        return result;
-    }
-
 }

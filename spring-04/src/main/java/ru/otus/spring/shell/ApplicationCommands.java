@@ -23,11 +23,11 @@ public class ApplicationCommands {
 
     private String userName;
     private Integer age;
-    private Scanner scanner = new Scanner(System.in);
 
 
     @ShellMethod(value = "Login command", key = {"l", "login"})
     public String login() {
+        Scanner scanner = new Scanner(System.in);
         System.out.println(messageProvider.getMessage("strings.enter-name"));
         this.userName = scanner.next();
 
@@ -47,6 +47,6 @@ public class ApplicationCommands {
     }
 
     private Availability isDisplayAvailable() {
-        return userName == null || age == null ? Availability.unavailable("Сначала залогиньтесь") : Availability.available();
+        return userName == null || age == null ? Availability.unavailable("Сначала представьтесь") : Availability.available();
     }
 }

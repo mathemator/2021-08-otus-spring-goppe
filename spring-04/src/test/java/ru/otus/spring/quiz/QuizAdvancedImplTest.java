@@ -3,6 +3,9 @@ package ru.otus.spring.quiz;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import ru.otus.spring.message.MessageProvider;
 import ru.otus.spring.quiz.advanced.QuizAdvancedImpl;
 import ru.otus.spring.quiz.question.Question;
@@ -15,26 +18,23 @@ import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@SpringBootTest
 public class QuizAdvancedImplTest {
 
-    private QuizAdvancedImpl quizAdvanced;
-    private QuestionParser questionParserMock;
-    private MessageProvider messageProvider;
+    @MockBean
+    private QuestionParser questionParser;
 
-    @BeforeEach
-    public void setUp() {
-
-        questionParserMock = Mockito.mock(QuestionParser.class);
-        Mockito.when(questionParserMock.fromLine(Mockito.any())).thenReturn(
-                new Question("question?", Arrays.asList("answer1", "answer2"), 1));
-        messageProvider = Mockito.mock(MessageProvider.class);
-    }
+    @Autowired
+    private Quiz quizAdvanced;
 
     @Test
-    public void testSuccessBehaviour() throws IOException {
-        quizAdvanced = new QuizAdvancedImpl(questionParserMock, "/test.csv", messageProvider, 3);
+    public void testSuccessBehaviour() {
+
+        Mockito.when(questionParser.fromLine(Mockito.any())).thenReturn(
+                new Question("question?", Arrays.asList("answer1", "answer2"), 1));
 
         String input = "1\n" +
+                "1\n" +
                 "1\n" +
                 "1\n" +
                 "1\n" +
@@ -47,10 +47,13 @@ public class QuizAdvancedImplTest {
     }
 
     @Test
-    public void testFailBehaviour() throws IOException {
-        quizAdvanced = new QuizAdvancedImpl(questionParserMock, "/test.csv", messageProvider, 6);
+    public void testFailBehaviour() {
+
+        Mockito.when(questionParser.fromLine(Mockito.any())).thenReturn(
+                new Question("question?", Arrays.asList("answer1", "answer2"), 2));
 
         String input = "1\n" +
+                "1\n" +
                 "1\n" +
                 "1\n" +
                 "1\n" +
