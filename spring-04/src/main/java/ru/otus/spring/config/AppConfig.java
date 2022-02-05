@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ru.otus.spring.dao.PersonDao;
 import ru.otus.spring.dao.PersonDaoSimple;
+import ru.otus.spring.io.IOService;
+import ru.otus.spring.io.OpenedConsoleIOService;
 import ru.otus.spring.message.MessageProvider;
 import ru.otus.spring.quiz.Quiz;
 import ru.otus.spring.quiz.advanced.QuizAdvancedImpl;
@@ -40,8 +42,13 @@ public class AppConfig {
     }
 
     @Bean
-    public Quiz quiz(QuestionParser questionParser, MessageProvider messageProvider) throws IOException {
-        return new QuizAdvancedImpl(questionParser, resourcePath, messageProvider, passNumber);
+    public Quiz quiz(IOService ioService, QuestionParser questionParser, MessageProvider messageProvider) {
+        return new QuizAdvancedImpl(ioService, questionParser, resourcePath, messageProvider, passNumber);
+    }
+
+    @Bean
+    public IOService ioService() {
+        return new OpenedConsoleIOService(System.in, System.out);
     }
 
 }

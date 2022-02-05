@@ -7,6 +7,7 @@ import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellMethodAvailability;
 import org.springframework.shell.standard.ShellOption;
 import ru.otus.spring.domain.Person;
+import ru.otus.spring.io.IOService;
 import ru.otus.spring.message.MessageProvider;
 import ru.otus.spring.quiz.Quiz;
 import ru.otus.spring.service.PersonService;
@@ -17,6 +18,7 @@ import java.util.Scanner;
 @RequiredArgsConstructor
 public class ApplicationCommands {
 
+    private final IOService ioService;
     private final MessageProvider messageProvider;
     private final PersonService personService;
     private final Quiz quiz;
@@ -27,12 +29,11 @@ public class ApplicationCommands {
 
     @ShellMethod(value = "Login command", key = {"l", "login"})
     public String login() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println(messageProvider.getMessage("strings.enter-name"));
-        this.userName = scanner.next();
+        ioService.out(messageProvider.getMessage("strings.enter-name"));
+        this.userName = ioService.readString();
 
-        System.out.println(messageProvider.getMessage("strings.enter-age"));
-        this.age = scanner.nextInt();
+        ioService.out(messageProvider.getMessage("strings.enter-age"));
+        this.age = Integer.parseInt(ioService.readString());
         Person user = personService.makeNew(this.userName, age);
         return messageProvider.getMessage("strings.current-user") + ": " + user.getName() + " " +
                 messageProvider.getMessage("strings.current-age") + ": " + user.getAge();
