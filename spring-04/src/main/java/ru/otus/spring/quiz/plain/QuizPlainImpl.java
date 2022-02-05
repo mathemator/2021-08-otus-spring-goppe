@@ -12,21 +12,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QuizPlainImpl implements Quiz {
-    private List<String> plainTextLines;
 
-    public QuizPlainImpl(String resourcePath) throws IOException {
+    private String resourcePath;
+
+    public QuizPlainImpl(String resourcePath) {
+        this.resourcePath = resourcePath;
+    }
+
+    @Override
+    public PassageStatus display() {
+        List<String> plainTextLines = new ArrayList<>();
         try (InputStream inputStream = getClass().getResourceAsStream(resourcePath)) {
-            plainTextLines = new ArrayList<>();
             InputStreamReader streamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
             BufferedReader reader = new BufferedReader(streamReader);
             for (String line; (line = reader.readLine()) != null; ) {
                 plainTextLines.add(line);
             }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-    }
 
-    @Override
-    public PassageStatus display() {
         for (String line : plainTextLines) {
             System.out.println(line);
         }

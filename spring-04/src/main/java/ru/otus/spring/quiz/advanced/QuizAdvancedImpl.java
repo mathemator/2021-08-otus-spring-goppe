@@ -10,7 +10,6 @@ import ru.otus.spring.quiz.question.Question;
 import ru.otus.spring.quiz.question.QuestionParser;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -28,12 +27,7 @@ public class QuizAdvancedImpl implements Quiz {
 
     @Override
     public PassageStatus display() {
-        List<Question> questions;
-        try {
-            questions = getQuestions();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        List<Question> questions = getQuestions();
 
         int currentQuizResult = 0;
         for (Question question : questions) {
@@ -54,7 +48,7 @@ public class QuizAdvancedImpl implements Quiz {
         return result;
     }
 
-    private List<Question> getQuestions() throws IOException {
+    private List<Question> getQuestions() {
         List<Question> questions = new ArrayList<>();
         try (InputStream inputStream = getClass().getResourceAsStream(resourcePath)) {
             InputStreamReader streamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
@@ -62,6 +56,8 @@ public class QuizAdvancedImpl implements Quiz {
             for (String line; (line = reader.readLine()) != null; ) {
                 questions.add(questionsParser.fromLine(line));
             }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
         return questions;
     }
