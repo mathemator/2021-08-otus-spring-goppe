@@ -4,16 +4,17 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import ru.otus.spring.quiz.question.QuestionCsvLineParser;
-import ru.otus.spring.quiz.question.QuestionParser;
-import ru.otus.spring.quiz.Quiz;
-import ru.otus.spring.quiz.advanced.QuizAdvancedImpl;
 import ru.otus.spring.dao.PersonDao;
 import ru.otus.spring.dao.PersonDaoSimple;
+import ru.otus.spring.io.IOService;
+import ru.otus.spring.io.OpenedConsoleIOService;
+import ru.otus.spring.message.MessageProvider;
+import ru.otus.spring.quiz.Quiz;
+import ru.otus.spring.quiz.advanced.QuizAdvancedImpl;
+import ru.otus.spring.quiz.question.QuestionCsvLineParser;
+import ru.otus.spring.quiz.question.QuestionParser;
 import ru.otus.spring.service.PersonService;
 import ru.otus.spring.service.PersonServiceImpl;
-
-import java.io.IOException;
 
 @Configuration
 @PropertySource("classpath:application.properties")
@@ -41,8 +42,18 @@ public class AppConfig {
     }
 
     @Bean
-    public Quiz quiz(QuestionCsvLineParser questionParser) throws IOException {
-        return new QuizAdvancedImpl(questionParser, resourcePath, passNumber);
+    public IOService ioService() {
+        return new OpenedConsoleIOService(System.in, System.out);
+    }
+
+    @Bean
+    public MessageProvider messageProvider() {
+        return new MessageProvider();
+    }
+
+    @Bean
+    public Quiz quiz(IOService ioService, MessageProvider messageProvider, QuestionParser questionParser) {
+        return new QuizAdvancedImpl(ioService, questionParser, resourcePath, messageProvider, passNumber);
     }
 
 }
