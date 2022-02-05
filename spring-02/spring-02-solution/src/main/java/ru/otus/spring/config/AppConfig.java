@@ -8,7 +8,6 @@ import ru.otus.spring.dao.PersonDao;
 import ru.otus.spring.dao.PersonDaoSimple;
 import ru.otus.spring.io.IOService;
 import ru.otus.spring.io.OpenedConsoleIOService;
-import ru.otus.spring.message.MessageProvider;
 import ru.otus.spring.quiz.Quiz;
 import ru.otus.spring.quiz.advanced.QuizAdvancedImpl;
 import ru.otus.spring.quiz.question.QuestionCsvLineParser;
@@ -46,14 +45,10 @@ public class AppConfig {
         return new OpenedConsoleIOService(System.in, System.out);
     }
 
-    @Bean
-    public MessageProvider messageProvider() {
-        return new MessageProvider();
-    }
 
     @Bean
-    public Quiz quiz(IOService ioService, MessageProvider messageProvider, QuestionParser questionParser) {
-        return new QuizAdvancedImpl(ioService, questionParser, resourcePath, messageProvider, passNumber);
+    public Quiz quiz(IOService ioService, QuestionParser questionParser) {
+        return new QuizAdvancedImpl(ioService, questionParser, resourcePath, passNumber);
     }
 
 }

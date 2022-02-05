@@ -3,7 +3,6 @@ package ru.otus.spring.quiz.advanced;
 
 import lombok.RequiredArgsConstructor;
 import ru.otus.spring.io.IOService;
-import ru.otus.spring.message.MessageProvider;
 import ru.otus.spring.quiz.PassageStatus;
 import ru.otus.spring.quiz.Quiz;
 import ru.otus.spring.quiz.question.Question;
@@ -22,7 +21,6 @@ public class QuizAdvancedImpl implements Quiz {
     private final IOService ioService;
     private final QuestionParser questionsParser;
     private final String resourcePath;
-    private final MessageProvider messageProvider;
     private final int passNum;
 
     @Override
@@ -32,7 +30,7 @@ public class QuizAdvancedImpl implements Quiz {
         int currentQuizResult = 0;
         for (Question question : questions) {
             ioService.out(question.getQuestionText() + " "
-                    + messageProvider.getMessage("strings.choose-answer") + ": ");
+                    + "Выберите ответ: ");
             for (int i = 1; i <= question.getAnswers().size(); i++) {
                 ioService.out(i + ". " + question.getAnswers().get(i - 1));
             }
@@ -42,9 +40,8 @@ public class QuizAdvancedImpl implements Quiz {
             }
         }
         PassageStatus result = currentQuizResult >= passNum ? PassageStatus.SUCCESS : PassageStatus.FAILED;
-        String resultString = result == PassageStatus.SUCCESS ? messageProvider.getMessage("strings.success") :
-                messageProvider.getMessage("strings.failed");
-        ioService.out(messageProvider.getMessage("strings.answer-thank") + ": " + resultString);
+        String resultString = result == PassageStatus.SUCCESS ? "Успешно" : "Неуспешно";
+        ioService.out("Спасибо за ваши ответы, ваш результат: " + resultString);
         return result;
     }
 
