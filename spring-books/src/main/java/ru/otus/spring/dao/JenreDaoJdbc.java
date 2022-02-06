@@ -30,13 +30,13 @@ public class JenreDaoJdbc implements JenreDao {
     public Jenre getById(long id) {
         Map<String, Object> params = Collections.singletonMap("id", id);
         return namedParameterJdbcOperations.queryForObject(
-                "select * from jenre where id = :id", params, new JenreMapper()
+                "select id, name from jenre where id = :id", params, new JenreMapper()
         );
     }
 
     @Override
     public List<Jenre> getAll() {
-        return namedParameterJdbcOperations.query("select * from jenre", new JenreMapper());
+        return namedParameterJdbcOperations.query("select id, name from jenre", new JenreMapper());
     }
 
     @Override

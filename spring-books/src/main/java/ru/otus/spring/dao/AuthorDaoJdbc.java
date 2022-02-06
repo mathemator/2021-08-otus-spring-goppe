@@ -30,7 +30,7 @@ public class AuthorDaoJdbc implements AuthorDao {
     public Author getById(long id) {
         Map<String, Object> params = Collections.singletonMap("id", id);
         return namedParameterJdbcOperations.queryForObject(
-                "select * from author where id = :id", params, new AuthorMapper()
+                "select id, name from author where id = :id", params, new AuthorMapper()
         );
     }
 
