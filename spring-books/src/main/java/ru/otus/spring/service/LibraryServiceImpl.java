@@ -4,10 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.otus.spring.dao.AuthorDao;
 import ru.otus.spring.dao.BookDao;
-import ru.otus.spring.dao.JenreDao;
+import ru.otus.spring.dao.GenreDao;
 import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
-import ru.otus.spring.domain.Jenre;
+import ru.otus.spring.domain.Genre;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ public class LibraryServiceImpl implements LibraryService {
 
     private final AuthorDao authorDao;
     private final BookDao bookDao;
-    private final JenreDao jenreDao;
+    private final GenreDao genreDao;
 
     @Override
     public Book getBookById(long id) {
@@ -35,8 +35,8 @@ public class LibraryServiceImpl implements LibraryService {
     }
 
     @Override
-    public List<Book> getBooksByJenre(String jenreName) {
-        return bookDao.getByJenre(jenreName);
+    public List<Book> getBooksByGenre(String genreName) {
+        return bookDao.getByGenre(genreName);
     }
 
     @Override
@@ -50,23 +50,23 @@ public class LibraryServiceImpl implements LibraryService {
     }
 
     @Override
-    public void addJenre(Jenre jenre) {
-        jenreDao.insert(jenre);
+    public void addGenre(Genre genre) {
+        genreDao.insert(genre);
     }
 
     @Override
-    public Jenre getJenreById(long id) {
-        return jenreDao.getById(id);
+    public Genre getGenreById(long id) {
+        return genreDao.getById(id);
     }
 
     @Override
-    public List<Jenre> getAllJenres() {
-        return jenreDao.getAll();
+    public List<Genre> getAllGenres() {
+        return genreDao.getAll();
     }
 
     @Override
-    public void removeJenreById(long id) {
-        jenreDao.deleteById(id);
+    public void removeGenreById(long id) {
+        genreDao.deleteById(id);
     }
 
     @Override

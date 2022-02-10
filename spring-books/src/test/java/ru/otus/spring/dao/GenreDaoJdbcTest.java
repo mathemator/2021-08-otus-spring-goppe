@@ -5,41 +5,40 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.dao.EmptyResultDataAccessException;
-import ru.otus.spring.domain.Jenre;
+import ru.otus.spring.domain.Genre;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @JdbcTest
-@Import(JenreDaoJdbc.class)
-class JenreDaoJdbcTest {
+@Import(GenreDaoJdbc.class)
+class GenreDaoJdbcTest {
 
     @Autowired
-    private JenreDaoJdbc jenreDao;
+    private GenreDaoJdbc genreDao;
 
     @Test
     void insert() {
-        Jenre expected = new Jenre(4, "DETECTIVE");
-        jenreDao.insert(expected);
-        Jenre actual = jenreDao.getById(expected.getId());
+        Genre expected = new Genre(4, "DETECTIVE");
+        genreDao.insert(expected);
+        Genre actual = genreDao.getById(expected.getId());
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
     }
 
     @Test
     void getById() {
-        Jenre expected = new Jenre(1, "NOVEL");
-        Jenre actual = jenreDao.getById(expected.getId());
+        Genre expected = new Genre(1, "NOVEL");
+        Genre actual = genreDao.getById(expected.getId());
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
     }
 
     @Test
     void getAll() {
-        Jenre expected = new Jenre(1, "NOVEL");
-        Jenre expected2 = new Jenre(2, "COMEDY");
-        Jenre expected3 = new Jenre(3, "TEST JENRE");
-        List<Jenre> actualAuthorList = jenreDao.getAll();
+        Genre expected = new Genre(1, "NOVEL");
+        Genre expected2 = new Genre(2, "COMEDY");
+        Genre expected3 = new Genre(3, "TEST GENRE");
+        List<Genre> actualAuthorList = genreDao.getAll();
         assertThat(actualAuthorList)
                 .usingFieldByFieldElementComparator()
                 .containsExactlyInAnyOrder(expected, expected2, expected3);
@@ -47,12 +46,12 @@ class JenreDaoJdbcTest {
 
     @Test
     void deleteById() {
-        assertThatCode(() -> jenreDao.getById(3))
+        assertThatCode(() -> genreDao.getById(3))
                 .doesNotThrowAnyException();
 
-        jenreDao.deleteById(3);
+        genreDao.deleteById(3);
 
-        assertThatThrownBy(() -> jenreDao.getById(3))
+        assertThatThrownBy(() -> genreDao.getById(3))
                 .isInstanceOf(EmptyResultDataAccessException.class);
     }
 }

@@ -12,7 +12,7 @@ public interface BookDao {
 
     List<Book> getAll();
 
-    List<Book> getByJenre(String jenreName);
+    List<Book> getByGenre(String genreName);
 
     List<Book> getByAuthor(String authorName);
 

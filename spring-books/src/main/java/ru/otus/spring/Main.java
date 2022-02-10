@@ -18,7 +18,7 @@ public class Main {
         ApplicationContext context = SpringApplication.run(Main.class);
 
         BookDao bookDao = context.getBean(BookDao.class);
-        List<Book> novel = bookDao.getByJenre("NOVEL");
+        List<Book> novel = bookDao.getByGenre("NOVEL");
         System.out.println(novel.stream().map(Book::toString).collect(Collectors.joining("\n")));
 
         Console.main(args);

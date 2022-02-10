@@ -2,7 +2,7 @@ package ru.otus.spring.service;
 
 import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
-import ru.otus.spring.domain.Jenre;
+import ru.otus.spring.domain.Genre;
 
 import java.util.List;
 
@@ -14,21 +14,21 @@ public interface LibraryService {
 
     List<Book> getAllBooks();
 
-    List<Book> getBooksByJenre(String jenreName);
+    List<Book> getBooksByGenre(String genreName);
 
     List<Book> getBooksByAuthor(String authorName);
 
     void removeBookById(long id);
 
-    void addJenre(Jenre jenre);
+    void addGenre(Genre genre);
 
-    Jenre getJenreById(long id);
+    Genre getGenreById(long id);
 
-    List<Jenre> getAllJenres();
+    List<Genre> getAllGenres();
 
-    void removeJenreById(long id);
+    void removeGenreById(long id);
 
-    void addAuthor(Author jenre);
+    void addAuthor(Author genre);
 
     Author getAuthorById(long id);
 

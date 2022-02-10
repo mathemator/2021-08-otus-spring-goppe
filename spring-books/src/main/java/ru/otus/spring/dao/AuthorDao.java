@@ -1,13 +1,12 @@
 package ru.otus.spring.dao;
 
 import ru.otus.spring.domain.Author;
-import ru.otus.spring.domain.Jenre;
 
 import java.util.List;
 
 public interface AuthorDao {
 
-    void insert(Author jenre);
+    void insert(Author author);
 
     Author getById(long id);
 

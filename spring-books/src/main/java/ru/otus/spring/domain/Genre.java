@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Data
-public class Jenre {
+public class Genre {
     private final long id;
     @NonNull
     private final String name;

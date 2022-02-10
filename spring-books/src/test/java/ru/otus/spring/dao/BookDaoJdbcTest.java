@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.dao.EmptyResultDataAccessException;
+import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
+import ru.otus.spring.domain.Genre;
 
 import java.util.List;
 
@@ -20,7 +22,7 @@ class BookDaoJdbcTest {
 
     @Test
     void insert() {
-        Book expected = new Book(4, "THE PROCESS", 1, 1);
+        Book expected = new Book(4, "THE PROCESS", new Author(1, "FRANZ KAFKA"), new Genre(1, "NOVEL"));
         bookDao.insert(expected);
         Book actual = bookDao.getById(expected.getId());
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
@@ -28,16 +30,16 @@ class BookDaoJdbcTest {
 
     @Test
     void getById() {
-        Book expected = new Book(1, "THE CASTLE", 1, 1);
+        Book expected = new Book(1, "THE CASTLE", new Author(1, "FRANZ KAFKA"), new Genre(1, "NOVEL"));
         Book actual = bookDao.getById(expected.getId());
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
     }
 
     @Test
     void getAll() {
-        Book expected = new Book(1, "THE CASTLE", 1, 1);
-        Book expected2 = new Book(2, "THE GOVERNMENT INSPECTOR", 2, 2);
-        Book expected3 = new Book(3, "DEAD SOULS", 2, 1);
+        Book expected = new Book(1, "THE CASTLE", new Author(1, "FRANZ KAFKA"), new Genre(1, "NOVEL"));
+        Book expected2 = new Book(2, "THE GOVERNMENT INSPECTOR", new Author(2, "NIKOLAY GOGOL"), new Genre(2, "COMEDY"));
+        Book expected3 = new Book(3, "DEAD SOULS", new Author(2, "NIKOLAY GOGOL"), new Genre(1, "NOVEL"));
         List<Book> actualAuthorList = bookDao.getAll();
         assertThat(actualAuthorList)
                 .usingFieldByFieldElementComparator()
@@ -45,10 +47,10 @@ class BookDaoJdbcTest {
     }
 
     @Test
-    void getByJenre() {
-        Book expected = new Book(1, "THE CASTLE", 1, 1);
-        Book expected2 = new Book(3, "DEAD SOULS", 2, 1);
-        List<Book> actualAuthorList = bookDao.getByJenre("NOVEL");
+    void getByGenre() {
+        Book expected = new Book(1, "THE CASTLE", new Author(1, "FRANZ KAFKA"), new Genre(1, "NOVEL"));
+        Book expected2 = new Book(3, "DEAD SOULS", new Author(2, "NIKOLAY GOGOL"), new Genre(1, "NOVEL"));
+        List<Book> actualAuthorList = bookDao.getByGenre("NOVEL");
         assertThat(actualAuthorList)
                 .usingFieldByFieldElementComparator()
                 .containsExactlyInAnyOrder(expected, expected2);
@@ -56,8 +58,8 @@ class BookDaoJdbcTest {
 
     @Test
     void getByAuthor() {
-        Book expected = new Book(2, "THE GOVERNMENT INSPECTOR", 2, 2);
-        Book expected2 = new Book(3, "DEAD SOULS", 2, 1);
+        Book expected = new Book(2, "THE GOVERNMENT INSPECTOR", new Author(2, "NIKOLAY GOGOL"), new Genre(2, "COMEDY"));
+        Book expected2 = new Book(3, "DEAD SOULS", new Author(2, "NIKOLAY GOGOL"), new Genre(1, "NOVEL"));
         List<Book> actualAuthorList = bookDao.getByAuthor("NIKOLAY GOGOL");
         assertThat(actualAuthorList)
                 .usingFieldByFieldElementComparator()

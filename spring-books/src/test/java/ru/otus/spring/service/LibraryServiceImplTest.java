@@ -2,12 +2,15 @@ package ru.otus.spring.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import ru.otus.spring.dao.AuthorDao;
 import ru.otus.spring.dao.BookDao;
-import ru.otus.spring.dao.JenreDao;
+import ru.otus.spring.dao.GenreDao;
 import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
-import ru.otus.spring.domain.Jenre;
+import ru.otus.spring.domain.Genre;
 
 import java.util.List;
 
@@ -16,25 +19,22 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
+@SpringBootTest
 class LibraryServiceImplTest {
 
+    @MockBean
     private BookDao bookDaoMock;
+    @MockBean
     private AuthorDao authorDaoMock;
-    private JenreDao jenreDaoMock;
+    @MockBean
+    private GenreDao genreDaoMock;
 
+    @Autowired
     private LibraryServiceImpl libraryService;
-
-    @BeforeEach
-    public void setUp() {
-        bookDaoMock = mock(BookDao.class);
-        authorDaoMock = mock(AuthorDao.class);
-        jenreDaoMock = mock(JenreDao.class);
-        libraryService = new LibraryServiceImpl(authorDaoMock, bookDaoMock, jenreDaoMock);
-    }
 
     @Test
     void getBookById() {
-        Book expected = new Book(1, "TEST", 1, 1);
+        Book expected = new Book(1, "TEST", new Author(1, "TEST_AUTHOR"), new Genre(1, "TEST_GENRE"));
         when(bookDaoMock.getById(anyLong())).thenReturn(expected);
         Book actual = libraryService.getBookById(1);
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
@@ -42,15 +42,15 @@ class LibraryServiceImplTest {
 
     @Test
     void addBook() {
-        Book expected = new Book(1, "TEST", 1, 1);
+        Book expected = new Book(1, "TEST", new Author(1, "TEST_AUTHOR"), new Genre(1, "TEST_GENRE"));
         libraryService.addBook(expected);
         verify(bookDaoMock, times(1)).insert(expected);
     }
 
     @Test
     void getAllBooks() {
-        Book book1 = new Book(1, "TEST", 1, 1);
-        Book book2 = new Book(2, "TEST2", 1, 1);
+        Book book1 = new Book(1, "TEST", new Author(1, "TEST_AUTHOR"), new Genre(1, "TEST_GENRE"));
+        Book book2 = new Book(2, "TEST2", new Author(2, "TEST_AUTHOR"), new Genre(1, "TEST_GENRE"));
         when(bookDaoMock.getAll()).thenReturn(List.of(book1, book2));
         List<Book> actual = libraryService.getAllBooks();
         assertThat(actual)
@@ -59,11 +59,11 @@ class LibraryServiceImplTest {
     }
 
     @Test
-    void getBooksByJenre() {
-        Book book1 = new Book(1, "TEST", 1, 1);
-        Book book2 = new Book(2, "TEST2", 1, 1);
-        when(bookDaoMock.getByJenre(anyString())).thenReturn(List.of(book1, book2));
-        List<Book> actual = libraryService.getBooksByJenre("TESTY");
+    void getBooksByGenre() {
+        Book book1 = new Book(1, "TEST", new Author(2, "TEST_AUTHOR"), new Genre(1, "TEST_GENRE"));
+        Book book2 = new Book(2, "TEST2", new Author(2, "TEST_AUTHOR"), new Genre(1, "TEST_GENRE"));
+        when(bookDaoMock.getByGenre(anyString())).thenReturn(List.of(book1, book2));
+        List<Book> actual = libraryService.getBooksByGenre("TESTY");
         assertThat(actual)
                 .usingFieldByFieldElementComparator()
                 .containsExactlyInAnyOrder(book1, book2);
@@ -71,8 +71,8 @@ class LibraryServiceImplTest {
 
     @Test
     void getBookstByAuthor() {
-        Book book1 = new Book(1, "TEST", 1, 1);
-        Book book2 = new Book(2, "TEST2", 1, 1);
+        Book book1 = new Book(1, "TEST", new Author(2, "TEST_AUTHOR"), new Genre(1, "TEST_GENRE"));
+        Book book2 = new Book(2, "TEST2", new Author(2, "TEST_AUTHOR"), new Genre(1, "TEST_GENRE"));
         when(bookDaoMock.getByAuthor(anyString())).thenReturn(List.of(book1, book2));
         List<Book> actual = libraryService.getBooksByAuthor("TESTY");
         assertThat(actual)
@@ -87,35 +87,35 @@ class LibraryServiceImplTest {
     }
 
     @Test
-    void addJenre() {
-        Jenre expected = new Jenre(1, "TEST");
-        libraryService.addJenre(expected);
-        verify(jenreDaoMock, times(1)).insert(expected);
+    void addGenre() {
+        Genre expected = new Genre(1, "TEST");
+        libraryService.addGenre(expected);
+        verify(genreDaoMock, times(1)).insert(expected);
     }
 
     @Test
-    void getJenreById() {
-        Jenre expected = new Jenre(1, "TEST");
-        when(jenreDaoMock.getById(anyLong())).thenReturn(expected);
-        Jenre actual = libraryService.getJenreById(1);
+    void getGenreById() {
+        Genre expected = new Genre(1, "TEST");
+        when(genreDaoMock.getById(anyLong())).thenReturn(expected);
+        Genre actual = libraryService.getGenreById(1);
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
     }
 
     @Test
-    void getAllJenres() {
-        Jenre jenre1 = new Jenre(1, "TEST");
-        Jenre jenre2 = new Jenre(2, "TEST2");
-        when(jenreDaoMock.getAll()).thenReturn(List.of(jenre1, jenre2));
-        List<Jenre> actual = libraryService.getAllJenres();
+    void getAllGenres() {
+        Genre genre1 = new Genre(1, "TEST");
+        Genre genre2 = new Genre(2, "TEST2");
+        when(genreDaoMock.getAll()).thenReturn(List.of(genre1, genre2));
+        List<Genre> actual = libraryService.getAllGenres();
         assertThat(actual)
                 .usingFieldByFieldElementComparator()
-                .containsExactlyInAnyOrder(jenre1, jenre2);
+                .containsExactlyInAnyOrder(genre1, genre2);
     }
 
     @Test
-    void removeJenreById() {
-        libraryService.removeJenreById(1);
-        verify(jenreDaoMock, times(1)).deleteById(1);
+    void removeGenreById() {
+        libraryService.removeGenreById(1);
+        verify(genreDaoMock, times(1)).deleteById(1);
     }
 
     @Test
