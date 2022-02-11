@@ -8,14 +8,13 @@ import ru.otus.spring.dao.PersonDaoSimple;
 import ru.otus.spring.io.IOService;
 import ru.otus.spring.io.OpenedConsoleIOService;
 import ru.otus.spring.message.MessageProvider;
-import ru.otus.spring.quiz.Quiz;
-import ru.otus.spring.quiz.advanced.QuizAdvancedImpl;
-import ru.otus.spring.quiz.question.QuestionCsvLineParser;
-import ru.otus.spring.quiz.question.QuestionParser;
-import ru.otus.spring.service.PersonService;
-import ru.otus.spring.service.PersonServiceImpl;
-
-import java.io.IOException;
+import ru.otus.spring.quiz.service.QuizService;
+import ru.otus.spring.quiz.service.QuizServiceImpl;
+import ru.otus.spring.quiz.loading.QuestionParserCsvImpl;
+import ru.otus.spring.quiz.loading.QuestionParser;
+import ru.otus.spring.quiz.loading.QuestionsLoaderImpl;
+import ru.otus.spring.person.PersonService;
+import ru.otus.spring.person.PersonServiceImpl;
 
 @Configuration
 public class AppConfig {
@@ -38,12 +37,17 @@ public class AppConfig {
 
     @Bean
     public QuestionParser questionParser() {
-        return new QuestionCsvLineParser();
+        return new QuestionParserCsvImpl();
     }
 
     @Bean
-    public Quiz quiz(IOService ioService, QuestionParser questionParser, MessageProvider messageProvider) {
-        return new QuizAdvancedImpl(ioService, questionParser, resourcePath, messageProvider, passNumber);
+    public QuizService quiz(IOService ioService, MessageProvider messageProvider) {
+        return new QuizServiceImpl(ioService, messageProvider, passNumber);
+    }
+
+    @Bean
+    public QuestionsLoaderImpl questionsLoader(QuestionParser questionParser) {
+        return new QuestionsLoaderImpl(questionParser, resourcePath);
     }
 
     @Bean

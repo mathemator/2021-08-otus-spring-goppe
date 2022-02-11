@@ -5,14 +5,15 @@ import org.springframework.shell.Availability;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellMethodAvailability;
-import org.springframework.shell.standard.ShellOption;
 import ru.otus.spring.domain.Person;
 import ru.otus.spring.io.IOService;
 import ru.otus.spring.message.MessageProvider;
-import ru.otus.spring.quiz.Quiz;
-import ru.otus.spring.service.PersonService;
+import ru.otus.spring.person.PersonService;
+import ru.otus.spring.quiz.loading.QuestionsLoader;
+import ru.otus.spring.quiz.question.Question;
+import ru.otus.spring.quiz.service.QuizService;
 
-import java.util.Scanner;
+import java.util.List;
 
 @ShellComponent
 @RequiredArgsConstructor
@@ -21,7 +22,8 @@ public class ApplicationCommands {
     private final IOService ioService;
     private final MessageProvider messageProvider;
     private final PersonService personService;
-    private final Quiz quiz;
+    private final QuestionsLoader questionsLoader;
+    private final QuizService quizService;
 
     private String userName;
     private Integer age;
@@ -42,7 +44,8 @@ public class ApplicationCommands {
     @ShellMethod(value = "Display questions", key = {"q", "quiz"})
     @ShellMethodAvailability(value = "isDisplayAvailable")
     public String display() {
-        quiz.display();
+        List<Question> questionList = questionsLoader.loadQuestions();
+        quizService.test(questionList);
 
         return "Всего доброго!";
     }

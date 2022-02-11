@@ -1,4 +1,4 @@
-package ru.otus.spring.service;
+package ru.otus.spring.person;
 
 import ru.otus.spring.dao.PersonDao;
 import ru.otus.spring.domain.Person;

@@ -1,5 +1,5 @@
-Сколько будет 2+2?,2,1,4,5,6
-Сколько будет 3+5?,3,2,35,8,не верен ни один из вариантов
-Сколько будет 1+1?,4,4,10,0,2
-Сколько будет 2*8?,3,3,28,16,10
-Сколько будет 2-2?,2,1,0,22,не верен ни один из вариантов
+strings.q1,2,strings.q1.a1,strings.q1.a2,strings.q1.a3,strings.q1.a4
+strings.q2,3,strings.q2.a1,strings.q2.a2,strings.q2.a3,strings.q2.a4
+strings.q3,4,strings.q3.a1,strings.q3.a2,strings.q3.a3,strings.q3.a4
+strings.q4,3,strings.q4.a1,strings.q4.a2,strings.q4.a3,strings.q4.a4
+strings.q5,2,strings.q5.a1,strings.q5.a2,strings.q5.a3,strings.q5.a4
