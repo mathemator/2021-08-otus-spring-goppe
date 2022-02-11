@@ -36,7 +36,7 @@ public class LibraryServiceImpl implements LibraryService {
 
     @Override
     public List<Book> getBooksByGenre(String genreName) {
-        return bookDao.getByGenre(genreName);
+        return bookDao.getByGenre(genreName.toUpperCase());
     }
 
     @Override

@@ -1,11 +1,18 @@
 package ru.otus.spring.shell;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.shell.Shell;
+import ru.otus.spring.domain.Author;
+import ru.otus.spring.domain.Book;
+import ru.otus.spring.domain.Genre;
 import ru.otus.spring.service.LibraryService;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,21 +34,41 @@ class ApplicationCommandsTest {
 
     @Test
     void deleteBook() {
+        String res = (String) shell.evaluate(() -> "db 1");
+        assertThat(res).isEqualTo("the book has been deleted");
     }
 
     @Test
     void getBook() {
+        Book book = new Book(1, "THE CASTLE", new Author(1, "FRANZ KAFKA"), new Genre(1, "NOVEL"));
+        Mockito.when(libraryService.getBookById(Mockito.anyLong())).thenReturn(book);
+        String res = (String) shell.evaluate(() -> "gb 1");
+        assertThat(res).isEqualTo(book.toString());
     }
 
     @Test
     void updateBook() {
+        String res = (String) shell.evaluate(() -> "ub 1 NAME 1 1");
+        assertThat(res).isEqualTo("the book has been updated");
     }
 
     @Test
     void getBooksByAuthor() {
+        Book book1 = new Book(1, "TITLE", new Author(1, "AUTHOR"), new Genre(1, "NOVEL"));
+        Book book2 = new Book(1, "TITLE 2", new Author(1, "AUTHOR"), new Genre(1, "NOVEL"));
+        List<Book> expectedList = List.of(book1, book2);
+        Mockito.when(libraryService.getBooksByAuthor(Mockito.anyString())).thenReturn(expectedList);
+        String res = (String) shell.evaluate(() -> "gba AUTHOR");
+        assertThat(res).isEqualTo(expectedList.stream().map(Book::toString).collect(Collectors.joining("\n")));
     }
 
     @Test
     void getBooksByGenre() {
+        Book book1 = new Book(1, "TITLE", new Author(1, "AUTHOR"), new Genre(1, "NOVEL"));
+        Book book2 = new Book(1, "TITLE 2", new Author(1, "AUTHOR"), new Genre(1, "NOVEL"));
+        List<Book> expectedList = List.of(book1, book2);
+        Mockito.when(libraryService.getBooksByGenre(Mockito.anyString())).thenReturn(expectedList);
+        String res = (String) shell.evaluate(() -> "gbg GENRE");
+        assertThat(res).isEqualTo(expectedList.stream().map(Book::toString).collect(Collectors.joining("\n")));
     }
 }
