@@ -41,12 +41,17 @@ public class LibraryServiceImpl implements LibraryService {
 
     @Override
     public List<Book> getBooksByAuthor(String authorName) {
-        return bookDao.getByAuthor(authorName);
+        return bookDao.getByAuthor(authorName.toUpperCase());
     }
 
     @Override
     public void removeBookById(long id) {
         bookDao.deleteById(id);
+    }
+
+    @Override
+    public void updateBookById(Book book) {
+        bookDao.updateById(book);
     }
 
     @Override

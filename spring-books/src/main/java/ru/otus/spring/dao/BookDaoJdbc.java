@@ -7,6 +7,7 @@ import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
 import ru.otus.spring.domain.Genre;
 
+import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collections;
@@ -27,7 +28,7 @@ public class BookDaoJdbc implements BookDao {
     public void insert(Book book) {
         namedParameterJdbcOperations.update("insert into book (title, author_id, genre_id) " +
                         "values (:title, :author_id, :genre_id)",
-                Map.of("title", book.getTitle(),
+                Map.of("title", book.getTitle().toUpperCase(),
                         "author_id", book.getAuthor().getId(), "genre_id", book.getGenre().getId()));
     }
 
@@ -76,6 +77,16 @@ public class BookDaoJdbc implements BookDao {
         Map<String, Object> params = Collections.singletonMap("id", id);
         namedParameterJdbcOperations.update(
                 "delete from book where id = :id", params
+        );
+    }
+
+    @Override
+    public void updateById(Book book) {
+        Map<String, Object> params = Map.of("id", book.getId(), "title", book.getTitle().toUpperCase(),
+                "author_id", book.getAuthor().getId(), "genre_id", book.getGenre().getId());
+        namedParameterJdbcOperations.update(
+                "update book set title = :title, author_id = :author_id, genre_id = :genre_id " +
+                        "where id = :id", params
         );
     }
 

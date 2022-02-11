@@ -36,6 +36,14 @@ class BookDaoJdbcTest {
     }
 
     @Test
+    void updateById() {
+        Book expected = new Book(1, "THE CASTLE", new Author(1, "FRANZ KAFKA"), new Genre(2, "COMEDY"));
+        bookDao.updateById(expected);
+        Book actual = bookDao.getById(expected.getId());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
+    }
+
+    @Test
     void getAll() {
         Book expected = new Book(1, "THE CASTLE", new Author(1, "FRANZ KAFKA"), new Genre(1, "NOVEL"));
         Book expected2 = new Book(2, "THE GOVERNMENT INSPECTOR", new Author(2, "NIKOLAY GOGOL"), new Genre(2, "COMEDY"));

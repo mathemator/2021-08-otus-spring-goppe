@@ -20,6 +20,8 @@ public interface LibraryService {
 
     void removeBookById(long id);
 
+    void updateBookById(Book book);
+
     void addGenre(Genre genre);
 
     Genre getGenreById(long id);

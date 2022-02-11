@@ -15,12 +15,7 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        ApplicationContext context = SpringApplication.run(Main.class);
-
-        BookDao bookDao = context.getBean(BookDao.class);
-        List<Book> novel = bookDao.getByGenre("NOVEL");
-        System.out.println(novel.stream().map(Book::toString).collect(Collectors.joining("\n")));
-
         Console.main(args);
+        SpringApplication.run(Main.class);
     }
 }
