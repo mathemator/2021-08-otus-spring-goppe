@@ -1,10 +1,13 @@
-package ru.otus.spring.quiz.question;
+package ru.otus.spring.quiz.loading;
+
+import ru.otus.spring.quiz.loading.QuestionParser;
+import ru.otus.spring.quiz.question.Question;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class QuestionCsvLineParser implements QuestionParser {
+public class QuestionParserCsvImpl implements QuestionParser {
     @Override
     public Question fromLine(String inputLine) {
         if (inputLine == null || inputLine.length() == 0) {

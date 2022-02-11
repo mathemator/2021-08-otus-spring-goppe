@@ -1,19 +1,19 @@
-package ru.otus.spring.quiz;
+package ru.otus.spring.quiz.loading;
 
-import org.junit.Before;
-import org.junit.Test;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import ru.otus.spring.quiz.question.Question;
-import ru.otus.spring.quiz.question.QuestionCsvLineParser;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class QuestionCsvLineParserTest {
+public class QuestionParserCsvImplTest {
 
-    private QuestionCsvLineParser questionCsvLineParser;
+    private QuestionParserCsvImpl questionCsvLineParser;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        questionCsvLineParser = new QuestionCsvLineParser();
+        questionCsvLineParser = new QuestionParserCsvImpl();
     }
 
     @Test
@@ -35,5 +35,4 @@ public class QuestionCsvLineParserTest {
     public void testIncorrectLine() {
         assertThrows(RuntimeException.class, () -> questionCsvLineParser.fromLine("bla,bla"));
     }
-
 }

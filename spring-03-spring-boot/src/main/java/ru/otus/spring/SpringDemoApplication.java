@@ -2,11 +2,11 @@ package ru.otus.spring;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import ru.otus.spring.domain.Person;
 import ru.otus.spring.message.MessageProvider;
-import ru.otus.spring.quiz.Quiz;
+import ru.otus.spring.quiz.service.QuizService;
+import ru.otus.spring.quiz.loading.QuestionsLoaderImpl;
 import ru.otus.spring.service.PersonService;
 
 import java.util.Scanner;
@@ -15,6 +15,7 @@ import java.util.Scanner;
 public class SpringDemoApplication {
 
     public static void main(String[] args) {
+
         ConfigurableApplicationContext ctx = SpringApplication.run(SpringDemoApplication.class, args);
         MessageProvider messageProvider = ctx.getBean(MessageProvider.class);
 
@@ -31,9 +32,11 @@ public class SpringDemoApplication {
         System.out.println(messageProvider.getMessage("strings.current-user") + ": " + user.getName() + " " +
                 messageProvider.getMessage("strings.current-age") + ": " + user.getAge());
 
-        Quiz quiz = ctx.getBean(Quiz.class);
-        quiz.display();
+        QuizService quiz = ctx.getBean(QuizService.class);
+        QuestionsLoaderImpl questionsLoader = ctx.getBean(QuestionsLoaderImpl.class);
+        quiz.test(questionsLoader.loadQuestions());
         ctx.close();
     }
+
 
 }
