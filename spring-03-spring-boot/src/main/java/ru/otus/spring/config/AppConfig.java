@@ -8,13 +8,16 @@ import ru.otus.spring.dao.PersonDaoSimple;
 import ru.otus.spring.io.IOService;
 import ru.otus.spring.io.OpenedConsoleIOService;
 import ru.otus.spring.message.MessageProvider;
-import ru.otus.spring.quiz.service.QuizService;
-import ru.otus.spring.quiz.service.QuizServiceImpl;
-import ru.otus.spring.quiz.loading.QuestionParserCsvImpl;
-import ru.otus.spring.quiz.loading.QuestionParser;
-import ru.otus.spring.quiz.loading.QuestionsLoaderImpl;
+import ru.otus.spring.question.loading.QuestionsLoader;
+import ru.otus.spring.question.service.QuestionService;
+import ru.otus.spring.question.service.QuestionServiceImpl;
+import ru.otus.spring.question.loading.QuestionParserCsvImpl;
+import ru.otus.spring.question.loading.QuestionParser;
+import ru.otus.spring.question.loading.QuestionsLoaderImpl;
 import ru.otus.spring.service.PersonService;
 import ru.otus.spring.service.PersonServiceImpl;
+import ru.otus.spring.service.QuizService;
+import ru.otus.spring.service.QuizServiceImpl;
 
 @Configuration
 public class AppConfig {
@@ -41,8 +44,8 @@ public class AppConfig {
     }
 
     @Bean
-    public QuizService quiz(IOService ioService, MessageProvider messageProvider) {
-        return new QuizServiceImpl(ioService, messageProvider, passNumber);
+    public QuestionService questionService(IOService ioService, MessageProvider messageProvider) {
+        return new QuestionServiceImpl(ioService, messageProvider, passNumber);
     }
 
     @Bean
@@ -53,6 +56,11 @@ public class AppConfig {
     @Bean
     public IOService ioService() {
         return new OpenedConsoleIOService(System.in, System.out);
+    }
+
+    public QuizService quizService(IOService ioService, MessageProvider messageProvider, PersonService personService,
+                                   QuestionsLoader questionsLoader, QuestionService questionService){
+        return new QuizServiceImpl(ioService, messageProvider, personService, questionsLoader, questionService);
     }
 
 }

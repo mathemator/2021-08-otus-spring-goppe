@@ -1,23 +1,23 @@
-package ru.otus.spring.quiz.service;
+package ru.otus.spring.question.service;
 
 
 import lombok.RequiredArgsConstructor;
 import ru.otus.spring.io.IOService;
 import ru.otus.spring.message.MessageProvider;
-import ru.otus.spring.quiz.PassageStatus;
-import ru.otus.spring.quiz.question.Question;
+import ru.otus.spring.question.PassageStatus;
+import ru.otus.spring.question.Question;
 
 import java.util.List;
 
 @RequiredArgsConstructor
-public class QuizServiceImpl implements QuizService {
+public class QuestionServiceImpl implements QuestionService {
 
     private final IOService ioService;
     private final MessageProvider messageProvider;
     private final int passNum;
 
     @Override
-    public PassageStatus test(List<Question> questions) {
+    public PassageStatus runQuestions(List<Question> questions) {
         int currentQuizResult = 0;
         for (Question question : questions) {
             currentQuizResult += askQuestion(question) ? 1 : 0;

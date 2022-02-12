@@ -1,7 +1,6 @@
-package ru.otus.spring.quiz.loading;
+package ru.otus.spring.question.loading;
 
-import ru.otus.spring.quiz.loading.QuestionParser;
-import ru.otus.spring.quiz.question.Question;
+import ru.otus.spring.question.Question;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -1,7 +1,7 @@
-package ru.otus.spring.quiz.loading;
+package ru.otus.spring.question.loading;
 
 import lombok.RequiredArgsConstructor;
-import ru.otus.spring.quiz.question.Question;
+import ru.otus.spring.question.Question;
 
 import java.io.BufferedReader;
 import java.io.InputStream;

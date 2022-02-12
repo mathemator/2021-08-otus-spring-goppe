@@ -1,9 +1,9 @@
-package ru.otus.spring.quiz.loading;
+package ru.otus.spring.question.loading;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import ru.otus.spring.quiz.question.Question;
+import ru.otus.spring.question.Question;
 
 import java.util.Arrays;
 import java.util.List;
