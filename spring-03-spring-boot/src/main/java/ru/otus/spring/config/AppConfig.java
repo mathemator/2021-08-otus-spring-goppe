@@ -49,7 +49,7 @@ public class AppConfig {
     }
 
     @Bean
-    public QuestionsLoaderImpl questionsLoader(QuestionParser questionParser) {
+    public QuestionsLoader questionsLoader(QuestionParser questionParser) {
         return new QuestionsLoaderImpl(questionParser, resourcePath);
     }
 
