@@ -42,8 +42,12 @@ class LibraryServiceImplTest {
 
     @Test
     void addBook() {
-        Book expected = new Book(1, "TEST", new Author(1, "TEST_AUTHOR"), new Genre(1, "TEST_GENRE"));
-        libraryService.addBook(expected);
+        Author testAuthor = new Author(1, "TEST_AUTHOR");
+        Genre testGenre = new Genre(1, "TEST_GENRE");
+        Book expected = new Book(0, "TEST", testAuthor, testGenre);
+        when(authorDaoMock.getById(anyLong())).thenReturn(testAuthor);
+        when(genreDaoMock.getById(anyLong())).thenReturn(testGenre);
+        libraryService.addBook("TEST", 1, 1);
         verify(bookDaoMock, times(1)).insert(expected);
     }
 

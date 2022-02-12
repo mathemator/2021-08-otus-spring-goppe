@@ -1,6 +1,7 @@
 package ru.otus.spring.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import ru.otus.spring.dao.AuthorDao;
 import ru.otus.spring.dao.BookDao;
@@ -25,7 +26,21 @@ public class LibraryServiceImpl implements LibraryService {
     }
 
     @Override
-    public void addBook(Book book) {
+    public void addBook(String bookName, long authorId, long genreId) {
+        Author author;
+        try {
+            author = getAuthorById(authorId);
+        } catch (EmptyResultDataAccessException e) {
+            throw new RuntimeException("author does not exist");
+        }
+        Genre genre;
+        try {
+            genre = getGenreById(genreId);
+        } catch (EmptyResultDataAccessException e) {
+            throw new RuntimeException("genre does not exist");
+        }
+        Book book = new Book(0, bookName.toUpperCase(), author, genre);
+
         bookDao.insert(book);
     }
 

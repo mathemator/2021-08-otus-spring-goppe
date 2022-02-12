@@ -8,6 +8,7 @@ import org.springframework.shell.standard.ShellOption;
 import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
 import ru.otus.spring.domain.Genre;
+import ru.otus.spring.representation.RepresentationUtil;
 import ru.otus.spring.service.LibraryService;
 
 import java.util.List;
@@ -23,20 +24,8 @@ public class ApplicationCommands {
     public String createBook(@ShellOption("-n") String bookName,
                              @ShellOption("-aid") long authorId,
                              @ShellOption("-gid") long genreId) {
-        Author author;
-        try {
-            author = libraryService.getAuthorById(authorId);
-        } catch (EmptyResultDataAccessException e) {
-            return "author does not exist";
-        }
-        Genre genre;
-        try {
-            genre = libraryService.getGenreById(genreId);
-        } catch (EmptyResultDataAccessException e) {
-            return "author does not exist";
-        }
-        Book book = new Book(0, bookName.toUpperCase(), author, genre);
-        libraryService.addBook(book);
+
+        libraryService.addBook(bookName, authorId, genreId);
         return "the book has been added";
     }
 
@@ -56,7 +45,7 @@ public class ApplicationCommands {
             return "book not found";
         }
 
-        return bookById.toString();
+        return RepresentationUtil.bookView(bookById);
     }
 
     @ShellMethod(value = "update book", key = {"ub", "update-book"})
@@ -86,7 +75,7 @@ public class ApplicationCommands {
 
         List<Book> booksByAuthor = libraryService.getBooksByAuthor(author);
 
-        return booksByAuthor.stream().map(Book::toString).collect(Collectors.joining("\n"));
+        return booksByAuthor.stream().map(RepresentationUtil::bookView).collect(Collectors.joining("\n"));
     }
 
     @ShellMethod(value = "get books by genre", key = {"gbg", "get-books-by-genre"})
@@ -94,6 +83,30 @@ public class ApplicationCommands {
 
         List<Book> booksByGenre = libraryService.getBooksByGenre(genre);
 
-        return booksByGenre.stream().map(Book::toString).collect(Collectors.joining("\n"));
+        return booksByGenre.stream().map(RepresentationUtil::bookView).collect(Collectors.joining("\n"));
+    }
+
+    @ShellMethod(value = "get books by genre", key = {"gab", "get-all-books"})
+    public String getAllBooks() {
+
+        List<Book> allBooks = libraryService.getAllBooks();
+
+        return allBooks.stream().map(RepresentationUtil::bookView).collect(Collectors.joining("\n"));
+    }
+
+    @ShellMethod(value = "get books by genre", key = {"gaa", "get-all-authors"})
+    public String getAllAuthors() {
+
+        List<Author> allAuthors = libraryService.getAllAuthors();
+
+        return allAuthors.stream().map(RepresentationUtil::authorView).collect(Collectors.joining("\n"));
+    }
+
+    @ShellMethod(value = "get books by genre", key = {"gag", "get-all-genres"})
+    public String getAllGenres() {
+
+        List<Genre> allGenres = libraryService.getAllGenres();
+
+        return allGenres.stream().map(RepresentationUtil::genreView).collect(Collectors.joining("\n"));
     }
 }

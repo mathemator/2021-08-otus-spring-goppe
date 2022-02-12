@@ -9,6 +9,7 @@ import org.springframework.shell.Shell;
 import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
 import ru.otus.spring.domain.Genre;
+import ru.otus.spring.representation.RepresentationUtil;
 import ru.otus.spring.service.LibraryService;
 
 import java.util.List;
@@ -43,7 +44,7 @@ class ApplicationCommandsTest {
         Book book = new Book(1, "THE CASTLE", new Author(1, "FRANZ KAFKA"), new Genre(1, "NOVEL"));
         Mockito.when(libraryService.getBookById(Mockito.anyLong())).thenReturn(book);
         String res = (String) shell.evaluate(() -> "gb 1");
-        assertThat(res).isEqualTo(book.toString());
+        assertThat(res).isEqualTo(RepresentationUtil.bookView(book));
     }
 
     @Test
@@ -59,7 +60,8 @@ class ApplicationCommandsTest {
         List<Book> expectedList = List.of(book1, book2);
         Mockito.when(libraryService.getBooksByAuthor(Mockito.anyString())).thenReturn(expectedList);
         String res = (String) shell.evaluate(() -> "gba AUTHOR");
-        assertThat(res).isEqualTo(expectedList.stream().map(Book::toString).collect(Collectors.joining("\n")));
+        assertThat(res).isEqualTo(
+                expectedList.stream().map(RepresentationUtil::bookView).collect(Collectors.joining("\n")));
     }
 
     @Test
@@ -69,6 +71,42 @@ class ApplicationCommandsTest {
         List<Book> expectedList = List.of(book1, book2);
         Mockito.when(libraryService.getBooksByGenre(Mockito.anyString())).thenReturn(expectedList);
         String res = (String) shell.evaluate(() -> "gbg GENRE");
-        assertThat(res).isEqualTo(expectedList.stream().map(Book::toString).collect(Collectors.joining("\n")));
+        assertThat(res).isEqualTo(
+                expectedList.stream().map(RepresentationUtil::bookView).collect(Collectors.joining("\n")));
+    }
+
+    @Test
+    void getAllBooks() {
+        Book book1 = new Book(1, "TITLE", new Author(1, "AUTHOR"), new Genre(1, "NOVEL"));
+        Book book2 = new Book(1, "TITLE 2", new Author(1, "AUTHOR"), new Genre(1, "NOVEL"));
+        List<Book> expectedList = List.of(book1, book2);
+        Mockito.when(libraryService.getAllBooks()).thenReturn(expectedList);
+        String res = (String) shell.evaluate(() -> "gab");
+        assertThat(res).isEqualTo(
+                expectedList.stream().map(RepresentationUtil::bookView).collect(Collectors.joining("\n")));
+    }
+
+    @Test
+    void getAllAuthors() {
+        Author author1 = new Author(1, "AUTHOR1");
+        Author author2 = new Author(2, "AUTHOR2");
+
+        List<Author> expectedList = List.of(author1, author2);
+        Mockito.when(libraryService.getAllAuthors()).thenReturn(expectedList);
+        String res = (String) shell.evaluate(() -> "gaa");
+        assertThat(res).isEqualTo(
+                expectedList.stream().map(RepresentationUtil::authorView).collect(Collectors.joining("\n")));
+    }
+
+    @Test
+    void getAllGenres() {
+        Genre genre1 = new Genre(1, "GENRE1");
+        Genre genre2 = new Genre(2, "GENRE2");
+
+        List<Genre> expectedList = List.of(genre1, genre2);
+        Mockito.when(libraryService.getAllGenres()).thenReturn(expectedList);
+        String res = (String) shell.evaluate(() -> "gag");
+        assertThat(res).isEqualTo(
+                expectedList.stream().map(RepresentationUtil::genreView).collect(Collectors.joining("\n")));
     }
 }
