@@ -1,4 +1,4 @@
-package ru.otus.spring.dao;
+package ru.otus.spring.repository;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
@@ -12,11 +12,11 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class GenreDaoJdbc implements GenreDao {
+public class GenreRepositoryJpa implements GenreRepository {
 
     private final NamedParameterJdbcOperations namedParameterJdbcOperations;
 
-    public GenreDaoJdbc(NamedParameterJdbcOperations namedParameterJdbcOperations) {
+    public GenreRepositoryJpa(NamedParameterJdbcOperations namedParameterJdbcOperations) {
         this.namedParameterJdbcOperations = namedParameterJdbcOperations;
     }
 

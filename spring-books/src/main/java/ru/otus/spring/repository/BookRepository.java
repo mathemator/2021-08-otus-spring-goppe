@@ -1,10 +1,10 @@
-package ru.otus.spring.dao;
+package ru.otus.spring.repository;
 
 import ru.otus.spring.domain.Book;
 
 import java.util.List;
 
-public interface BookDao {
+public interface BookRepository {
 
     void insert(Book book);
 

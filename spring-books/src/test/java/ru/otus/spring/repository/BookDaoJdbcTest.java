@@ -1,4 +1,4 @@
-package ru.otus.spring.dao;
+package ru.otus.spring.repository;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +14,11 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 
 @JdbcTest
-@Import(BookDaoJdbc.class)
+@Import(BookRepositoryJpa.class)
 class BookDaoJdbcTest {
 
     @Autowired
-    private BookDaoJdbc bookDao;
+    private BookRepositoryJpa bookDao;
 
     @Test
     void insert() {

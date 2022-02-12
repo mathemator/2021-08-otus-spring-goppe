@@ -1,44 +1,44 @@
-package ru.otus.spring.dao;
+package ru.otus.spring.repository;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.dao.EmptyResultDataAccessException;
-import ru.otus.spring.domain.Genre;
+import ru.otus.spring.domain.Author;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
 @JdbcTest
-@Import(GenreDaoJdbc.class)
-class GenreDaoJdbcTest {
+@Import(AuthorRepositoryJpa.class)
+class AuthorDaoJdbcTest {
 
     @Autowired
-    private GenreDaoJdbc genreDao;
+    private AuthorRepositoryJpa authorDao;
 
     @Test
     void insert() {
-        Genre expected = new Genre(4, "DETECTIVE");
-        genreDao.insert(expected);
-        Genre actual = genreDao.getById(expected.getId());
+        Author expected = new Author(4, "ALEXANDER PUSHKIN");
+        authorDao.insert(expected);
+        Author actual = authorDao.getById(expected.getId());
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
     }
 
     @Test
     void getById() {
-        Genre expected = new Genre(1, "NOVEL");
-        Genre actual = genreDao.getById(expected.getId());
+        Author expected = new Author(1, "FRANZ KAFKA");
+        Author actual = authorDao.getById(expected.getId());
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
     }
 
     @Test
     void getAll() {
-        Genre expected = new Genre(1, "NOVEL");
-        Genre expected2 = new Genre(2, "COMEDY");
-        Genre expected3 = new Genre(3, "TEST GENRE");
-        List<Genre> actualAuthorList = genreDao.getAll();
+        Author expected = new Author(1, "FRANZ KAFKA");
+        Author expected2 = new Author(2, "NIKOLAY GOGOL");
+        Author expected3 = new Author(3, "TEST AUTHOR");
+        List<Author> actualAuthorList = authorDao.getAll();
         assertThat(actualAuthorList)
                 .usingFieldByFieldElementComparator()
                 .containsExactlyInAnyOrder(expected, expected2, expected3);
@@ -46,12 +46,12 @@ class GenreDaoJdbcTest {
 
     @Test
     void deleteById() {
-        assertThatCode(() -> genreDao.getById(3))
+        assertThatCode(() -> authorDao.getById(3))
                 .doesNotThrowAnyException();
 
-        genreDao.deleteById(3);
+        authorDao.deleteById(3);
 
-        assertThatThrownBy(() -> genreDao.getById(3))
+        assertThatThrownBy(() -> authorDao.getById(3))
                 .isInstanceOf(EmptyResultDataAccessException.class);
     }
 }

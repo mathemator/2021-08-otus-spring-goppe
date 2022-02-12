@@ -1,13 +1,12 @@
 package ru.otus.spring.service;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import ru.otus.spring.dao.AuthorDao;
-import ru.otus.spring.dao.BookDao;
-import ru.otus.spring.dao.GenreDao;
+import ru.otus.spring.repository.AuthorRepository;
+import ru.otus.spring.repository.BookRepository;
+import ru.otus.spring.repository.GenreRepository;
 import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
 import ru.otus.spring.domain.Genre;
@@ -23,11 +22,11 @@ import static org.mockito.Mockito.*;
 class LibraryServiceImplTest {
 
     @MockBean
-    private BookDao bookDaoMock;
+    private BookRepository bookDaoMock;
     @MockBean
-    private AuthorDao authorDaoMock;
+    private AuthorRepository authorDaoMock;
     @MockBean
-    private GenreDao genreDaoMock;
+    private GenreRepository genreDaoMock;
 
     @Autowired
     private LibraryServiceImpl libraryService;

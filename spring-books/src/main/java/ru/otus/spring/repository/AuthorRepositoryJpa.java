@@ -1,4 +1,4 @@
-package ru.otus.spring.dao;
+package ru.otus.spring.repository;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
@@ -12,11 +12,11 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class AuthorDaoJdbc implements AuthorDao {
+public class AuthorRepositoryJpa implements AuthorRepository {
 
     private final NamedParameterJdbcOperations namedParameterJdbcOperations;
 
-    public AuthorDaoJdbc(NamedParameterJdbcOperations namedParameterJdbcOperations) {
+    public AuthorRepositoryJpa(NamedParameterJdbcOperations namedParameterJdbcOperations) {
         this.namedParameterJdbcOperations = namedParameterJdbcOperations;
     }
 

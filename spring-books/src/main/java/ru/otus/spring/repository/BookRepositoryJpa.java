@@ -1,4 +1,4 @@
-package ru.otus.spring.dao;
+package ru.otus.spring.repository;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
@@ -7,7 +7,6 @@ import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
 import ru.otus.spring.domain.Genre;
 
-import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collections;
@@ -15,11 +14,11 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class BookDaoJdbc implements BookDao {
+public class BookRepositoryJpa implements BookRepository {
 
     private final NamedParameterJdbcOperations namedParameterJdbcOperations;
 
-    public BookDaoJdbc(NamedParameterJdbcOperations namedParameterJdbcOperations) {
+    public BookRepositoryJpa(NamedParameterJdbcOperations namedParameterJdbcOperations) {
         this.namedParameterJdbcOperations = namedParameterJdbcOperations;
     }
 

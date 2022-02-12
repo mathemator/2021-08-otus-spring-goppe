@@ -3,9 +3,9 @@ package ru.otus.spring.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
-import ru.otus.spring.dao.AuthorDao;
-import ru.otus.spring.dao.BookDao;
-import ru.otus.spring.dao.GenreDao;
+import ru.otus.spring.repository.AuthorRepository;
+import ru.otus.spring.repository.BookRepository;
+import ru.otus.spring.repository.GenreRepository;
 import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
 import ru.otus.spring.domain.Genre;
@@ -16,9 +16,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LibraryServiceImpl implements LibraryService {
 
-    private final AuthorDao authorDao;
-    private final BookDao bookDao;
-    private final GenreDao genreDao;
+    private final AuthorRepository authorDao;
+    private final BookRepository bookDao;
+    private final GenreRepository genreDao;
 
     @Override
     public Book getBookById(long id) {
