@@ -6,5 +6,5 @@ import ru.otus.spring.question.Question;
 import java.util.List;
 
 public interface QuestionService {
-    PassageStatus runQuestions(List<Question> questions);
+    void runQuestions(List<Question> questions);
 }

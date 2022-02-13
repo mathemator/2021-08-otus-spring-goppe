@@ -1,6 +1,7 @@
 package ru.otus.spring.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import ru.otus.spring.domain.Person;
 import ru.otus.spring.io.IOService;
 import ru.otus.spring.message.MessageProvider;
@@ -12,6 +13,7 @@ import ru.otus.spring.question.service.QuestionService;
 import java.util.List;
 import java.util.Scanner;
 
+@Service
 @RequiredArgsConstructor
 public class QuizServiceImpl implements QuizService {
 
@@ -31,7 +33,7 @@ public class QuizServiceImpl implements QuizService {
         int age =  Integer.parseInt(ioService.readString());
 
         Person user = personService.makeNew(name, age);
-        System.out.println(messageProvider.getMessage("strings.current-user") + ": " + user.getName() + " " +
+        ioService.out(messageProvider.getMessage("strings.current-user") + ": " + user.getName() + " " +
                 messageProvider.getMessage("strings.current-age") + ": " + user.getAge());
 
         List<Question> questions = questionsLoader.loadQuestions();

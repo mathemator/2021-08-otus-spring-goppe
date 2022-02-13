@@ -33,8 +33,8 @@ public class QuizServiceImplTest {
         Question question = new Question("question?", Arrays.asList("answer1", "answer2"), 1);
         List<Question> questionList = List.of(question, question, question, question, question);
 
-        PassageStatus display = quizAdvanced.runQuestions(questionList);
-        assertEquals(PassageStatus.SUCCESS, display, "result must be success");
+        quizAdvanced.runQuestions(questionList);
+        Mockito.verify(messageProvider).getMessage("strings.success");
     }
 
     @Test
@@ -43,8 +43,8 @@ public class QuizServiceImplTest {
         Question question = new Question("question?", Arrays.asList("answer1", "answer2"), 2);
         List<Question> questionList = List.of(question, question, question, question, question);
 
-        PassageStatus display = quizAdvanced.runQuestions(questionList);
-        assertEquals(PassageStatus.FAILED, display, "result must be failed");
+        quizAdvanced.runQuestions(questionList);
+        Mockito.verify(messageProvider).getMessage("strings.failed");
     }
 
 }

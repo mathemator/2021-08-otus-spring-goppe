@@ -1,6 +1,8 @@
 package ru.otus.spring.question.loading;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import ru.otus.spring.question.Question;
 
 import java.io.BufferedReader;
@@ -10,10 +12,12 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 @RequiredArgsConstructor
 public class QuestionsLoaderImpl implements QuestionsLoader{
 
     private final QuestionParser questionsParser;
+    @Value("${quiz.resource-path}")
     private final String resourcePath;
 
     public List<Question> loadQuestions() {

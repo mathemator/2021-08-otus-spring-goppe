@@ -22,45 +22,9 @@ import ru.otus.spring.service.QuizServiceImpl;
 @Configuration
 public class AppConfig {
 
-    @Value("${quiz.resource-path}")
-    String resourcePath;
-
-    @Value("${quiz.pass-number}")
-    int passNumber;
-
-    @Bean
-    public PersonDao personDao() {
-        return new PersonDaoSimple();
-    }
-
-    @Bean
-    public PersonService personService(PersonDao dao) {
-        return new PersonServiceImpl(dao);
-    }
-
-    @Bean
-    public QuestionParser questionParser() {
-        return new QuestionParserCsvImpl();
-    }
-
-    @Bean
-    public QuestionService questionService(IOService ioService, MessageProvider messageProvider) {
-        return new QuestionServiceImpl(ioService, messageProvider, passNumber);
-    }
-
-    @Bean
-    public QuestionsLoader questionsLoader(QuestionParser questionParser) {
-        return new QuestionsLoaderImpl(questionParser, resourcePath);
-    }
-
     @Bean
     public IOService ioService() {
         return new OpenedConsoleIOService(System.in, System.out);
-    }
-
-    public QuizService quizService(IOService ioService, MessageProvider messageProvider, PersonService personService,
-                                   QuestionsLoader questionsLoader, QuestionService questionService){
-        return new QuizServiceImpl(ioService, messageProvider, personService, questionsLoader, questionService);
     }
 
 }

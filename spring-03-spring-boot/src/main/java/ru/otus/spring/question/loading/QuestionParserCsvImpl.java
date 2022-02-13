@@ -1,11 +1,13 @@
 package ru.otus.spring.question.loading;
 
+import org.springframework.stereotype.Component;
 import ru.otus.spring.question.Question;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Component
 public class QuestionParserCsvImpl implements QuestionParser {
     @Override
     public Question fromLine(String inputLine) {
