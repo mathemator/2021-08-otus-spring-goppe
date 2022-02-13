@@ -21,7 +21,7 @@ class GenreDaoJdbcTest {
     @Test
     void insert() {
         Genre expected = new Genre(4, "DETECTIVE");
-        genreDao.insert(expected);
+        genreDao.save(expected);
         Genre actual = genreDao.getById(expected.getId());
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
     }

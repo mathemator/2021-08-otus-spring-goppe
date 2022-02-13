@@ -10,7 +10,9 @@ import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
 import ru.otus.spring.domain.Genre;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,7 +23,7 @@ public class LibraryServiceImpl implements LibraryService {
     private final GenreRepository genreDao;
 
     @Override
-    public Book getBookById(long id) {
+    public Optional<Book> getBookById(long id) {
         return bookDao.getById(id);
     }
 
@@ -39,9 +41,9 @@ public class LibraryServiceImpl implements LibraryService {
         } catch (EmptyResultDataAccessException e) {
             throw new RuntimeException("genre does not exist");
         }
-        Book book = new Book(0, bookName.toUpperCase(), author, genre);
+        Book book = new Book(0, bookName.toUpperCase(), author, genre, Collections.emptyList());
 
-        bookDao.insert(book);
+        bookDao.save(book);
     }
 
     @Override
@@ -65,13 +67,8 @@ public class LibraryServiceImpl implements LibraryService {
     }
 
     @Override
-    public void updateBookById(Book book) {
-        bookDao.updateById(book);
-    }
-
-    @Override
     public void addGenre(Genre genre) {
-        genreDao.insert(genre);
+        genreDao.save(genre);
     }
 
     @Override
@@ -91,7 +88,7 @@ public class LibraryServiceImpl implements LibraryService {
 
     @Override
     public void addAuthor(Author author) {
-        authorDao.insert(author);
+        authorDao.save(author);
     }
 
     @Override

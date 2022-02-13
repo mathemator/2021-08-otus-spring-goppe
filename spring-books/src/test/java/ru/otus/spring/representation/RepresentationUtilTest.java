@@ -5,13 +5,15 @@ import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
 import ru.otus.spring.domain.Genre;
 
+import java.util.Collections;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class RepresentationUtilTest {
 
     @Test
     void bookView() {
-        Book book = new Book(1, "TEST", new Author(1, "TEST_AUTHOR"), new Genre(1, "TEST_GENRE"));
+        Book book = new Book(1, "TEST", new Author(1, "TEST_AUTHOR"), new Genre(1, "TEST_GENRE"), Collections.emptyList());
         assertEquals("id: 1, title: TEST, authorId: 1, authorName: TEST_AUTHOR, genreId: 1, genreName: TEST_GENRE",
                 RepresentationUtil.bookView(book));
     }

@@ -21,7 +21,7 @@ public class AuthorRepositoryJpa implements AuthorRepository {
     }
 
     @Override
-    public void insert(Author author) {
+    public void save(Author author) {
         namedParameterJdbcOperations.update("insert into author (name) values (:name)",
                 Map.of("name", author.getName().toUpperCase()));
     }

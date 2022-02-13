@@ -5,7 +5,7 @@ import ru.otus.spring.domain.Genre;
 import java.util.List;
 
 public interface GenreRepository {
-    void insert(Genre genre);
+    void save(Genre genre);
 
     Genre getById(long id);
 

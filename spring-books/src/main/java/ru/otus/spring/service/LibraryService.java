@@ -1,15 +1,15 @@
 package ru.otus.spring.service;
 
-import org.springframework.shell.standard.ShellOption;
 import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
 import ru.otus.spring.domain.Genre;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface LibraryService {
 
-    Book getBookById(long id);
+    Optional<Book> getBookById(long id);
 
     void addBook(String bookName,
                   long authorId,
@@ -22,8 +22,6 @@ public interface LibraryService {
     List<Book> getBooksByAuthor(String authorName);
 
     void removeBookById(long id);
-
-    void updateBookById(Book book);
 
     void addGenre(Genre genre);
 

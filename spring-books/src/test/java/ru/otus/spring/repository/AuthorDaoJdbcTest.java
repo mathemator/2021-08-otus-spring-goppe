@@ -21,7 +21,7 @@ class AuthorDaoJdbcTest {
     @Test
     void insert() {
         Author expected = new Author(4, "ALEXANDER PUSHKIN");
-        authorDao.insert(expected);
+        authorDao.save(expected);
         Author actual = authorDao.getById(expected.getId());
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
     }
