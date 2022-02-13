@@ -1,7 +1,6 @@
 package ru.otus.spring.question.service;
 
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import ru.otus.spring.io.IOService;
@@ -12,13 +11,19 @@ import ru.otus.spring.question.Question;
 import java.util.List;
 
 @Component
-@RequiredArgsConstructor
 public class QuestionServiceImpl implements QuestionService {
 
     private final IOService ioService;
     private final MessageProvider messageProvider;
-    @Value("${quiz.pass-number}")
     private final int passNumber;
+
+    public QuestionServiceImpl(IOService ioService,
+                               MessageProvider messageProvider,
+                               @Value("${quiz.pass-number}") int passNumber) {
+        this.ioService = ioService;
+        this.messageProvider = messageProvider;
+        this.passNumber = passNumber;
+    }
 
     @Override
     public void runQuestions(List<Question> questions) {
