@@ -1,6 +1,6 @@
 insert into GENRE (id, NAME) values (1, 'NOVEL');
 insert into GENRE (id, NAME) values (2, 'COMEDY');
-insert into GENRE (id, NAME) values (3, 'TEST JENRE');
+insert into GENRE (id, NAME) values (3, 'TEST GENRE');
 
 insert into AUTHOR (id, NAME) VALUES (1, 'FRANZ KAFKA');
 insert into AUTHOR (id, NAME) VALUES (2, 'NIKOLAY GOGOL');

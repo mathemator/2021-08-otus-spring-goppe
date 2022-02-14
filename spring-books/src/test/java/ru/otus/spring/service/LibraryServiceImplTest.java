@@ -1,17 +1,19 @@
 package ru.otus.spring.service;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import ru.otus.spring.repository.AuthorRepository;
-import ru.otus.spring.repository.BookRepository;
-import ru.otus.spring.repository.GenreRepository;
 import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
+import ru.otus.spring.domain.Comment;
 import ru.otus.spring.domain.Genre;
+import ru.otus.spring.repository.AuthorRepository;
+import ru.otus.spring.repository.BookRepository;
+import ru.otus.spring.repository.CommentRepository;
+import ru.otus.spring.repository.GenreRepository;
 
-import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -31,6 +33,8 @@ class LibraryServiceImplTest {
     private AuthorRepository authorRepositoryMock;
     @MockBean
     private GenreRepository genreRepositoryMock;
+    @MockBean
+    private CommentRepository commentRepositoryMock;
 
     @Autowired
     private LibraryServiceImpl libraryService;
@@ -44,13 +48,13 @@ class LibraryServiceImplTest {
     }
 
     @Test
-    void addBook() {
+    void saveBook() {
         Optional<Author> testAuthor = Optional.of(new Author(1, "TEST_AUTHOR"));
         Optional<Genre> testGenre = Optional.of(new Genre(1, "TEST_GENRE"));
         Book expected = new Book(0, "TEST", testAuthor.get(), testGenre.get(), Collections.emptyList());
         when(authorRepositoryMock.getById(anyLong())).thenReturn(testAuthor);
         when(genreRepositoryMock.getById(anyLong())).thenReturn(testGenre);
-        libraryService.addBook("TEST", 1, 1);
+        libraryService.saveBook(0, "TEST", 1, 1);
         verify(bookRepositoryMock, times(1)).save(expected);
     }
 
@@ -88,24 +92,24 @@ class LibraryServiceImplTest {
     }
 
     @Test
-    void removeBookById() {
-        libraryService.removeBookById(1);
+    void deleteBookById() {
+        libraryService.deleteBookById(1);
         verify(bookRepositoryMock, times(1)).deleteById(1);
     }
 
     @Test
-    void addGenre() {
+    void saveGenre() {
         Genre expected = new Genre(1, "TEST");
-        libraryService.addGenre(expected);
+        libraryService.saveGenre(1, "TEST");
         verify(genreRepositoryMock, times(1)).save(expected);
     }
 
     @Test
     void getGenreById() {
-//        Genre expected = new Genre(1, "TEST");
-//        when(genreRepositoryMock.getById(anyLong())).thenReturn(expected);
-//        Genre actual = libraryService.getGenreById(1);
-//        assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
+        Optional<Genre> expected = Optional.of(new Genre(1, "TEST"));
+        when(genreRepositoryMock.getById(anyLong())).thenReturn(expected);
+        Optional<Genre> actual = libraryService.getGenreById(1);
+        assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
     }
 
     @Test
@@ -120,15 +124,15 @@ class LibraryServiceImplTest {
     }
 
     @Test
-    void removeGenreById() {
-        libraryService.removeGenreById(1);
+    void deleteGenreById() {
+        libraryService.deleteGenreById(1);
         verify(genreRepositoryMock, times(1)).deleteById(1);
     }
 
     @Test
-    void addAuthor() {
+    void saveAuthor() {
         Author expected = new Author(1, "test");
-        libraryService.addAuthor(expected);
+        libraryService.saveAuthor(1, "test");
         verify(authorRepositoryMock, times(1)).save(expected);
     }
 
@@ -152,8 +156,55 @@ class LibraryServiceImplTest {
     }
 
     @Test
-    void removeAuthorById() {
-        libraryService.removeAuthorById(1);
+    void deleteAuthorById() {
+        libraryService.deleteAuthorById(1);
         verify(authorRepositoryMock, times(1)).deleteById(1);
+    }
+
+
+
+    @Test
+    void saveComment() {
+        Book book1 = new Book(1, "TEST", new Author(2, "TEST_AUTHOR"), new Genre(1, "TEST_GENRE"), Collections.emptyList());
+        Comment expected = new Comment(1, "TEST", book1);
+        when(bookRepositoryMock.getById(anyLong())).thenReturn(Optional.of(book1));
+        libraryService.saveComment(1, "TEST", 1);
+        verify(commentRepositoryMock, times(1)).save(expected);
+    }
+
+    @Test
+    void getCommentById() {
+        Optional<Comment> expected = Optional.of(new Comment(1, "TEST", new Book()));
+        when(commentRepositoryMock.getById(anyLong())).thenReturn(expected);
+        Optional<Comment> actual = libraryService.getCommentById(1);
+        assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
+    }
+
+    @Test
+    void getAllComments() {
+        Comment comment1 = new Comment(1, "TEST", new Book());
+        Comment comment2 = new Comment(2, "TEST2", new Book());
+        when(commentRepositoryMock.getAll()).thenReturn(List.of(comment1, comment2));
+        List<Comment> actual = libraryService.getAllComments();
+        assertThat(actual)
+                .usingFieldByFieldElementComparator()
+                .containsExactlyInAnyOrder(comment1, comment2);
+    }
+
+    @Test
+    void deleteCommentById() {
+        libraryService.deleteCommentById(1);
+        verify(commentRepositoryMock, times(1)).deleteById(1);
+    }
+
+    @Test
+    void getCommentsByBookId() {
+        Comment comment1 = new Comment(1, "TEST", new Book());
+        Comment comment2 = new Comment(2, "TEST2", new Book());
+        when(commentRepositoryMock.getByBookId(Mockito.anyLong())).thenReturn(List.of(comment1, comment2));
+        List<Comment> actual = libraryService.getCommentsByBookId(1);
+        assertThat(actual)
+                .usingFieldByFieldElementComparator()
+                .containsExactlyInAnyOrder(comment1, comment2);
     }
 }

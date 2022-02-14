@@ -3,6 +3,7 @@ package ru.otus.spring.representation;
 import lombok.experimental.UtilityClass;
 import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
+import ru.otus.spring.domain.Comment;
 import ru.otus.spring.domain.Genre;
 
 @UtilityClass
@@ -20,5 +21,9 @@ public class RepresentationUtil {
 
     public String genreView(Genre genre) {
         return String.format("genreId: %d, genreName: %s", genre.getId(), genre.getName());
+    }
+
+    public String commentView(Comment comment) {
+        return String.format("bookId: %d, commentId: %d, text: %s", comment.getBook().getId(), comment.getId(), comment.getText());
     }
 }

@@ -80,7 +80,7 @@ class BookRepositoryJpaTest {
         expected3.getComments().add(new Comment(2, "GOOD TOO", expected3));
         List<Book> actualAuthorList = bookRepositoryJpa.getByAuthor("NIKOLAY GOGOL");
         assertThat(actualAuthorList)
-                .usingFieldByFieldElementComparator()
+                .usingRecursiveFieldByFieldElementComparator()
                 .containsExactlyInAnyOrder(expected2, expected3);
     }
 

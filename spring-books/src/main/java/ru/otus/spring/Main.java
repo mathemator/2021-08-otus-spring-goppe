@@ -19,10 +19,6 @@ public class Main {
 
         ConfigurableApplicationContext run = SpringApplication.run(Main.class);
 
-        CommentRepository bean = run.getBean(CommentRepository.class);
-        List<Comment> novel = bean.getByBookId(1);
-        System.out.println("result: " + novel);
-
         Console.main();
 
     }
