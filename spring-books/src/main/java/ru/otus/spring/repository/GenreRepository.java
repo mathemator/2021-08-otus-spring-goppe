@@ -3,11 +3,12 @@ package ru.otus.spring.repository;
 import ru.otus.spring.domain.Genre;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface GenreRepository {
-    void save(Genre genre);
+    Genre save(Genre genre);
 
-    Genre getById(long id);
+    Optional<Genre> getById(long id);
 
     List<Genre> getAll();
 

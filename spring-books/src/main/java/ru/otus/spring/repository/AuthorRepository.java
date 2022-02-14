@@ -3,12 +3,13 @@ package ru.otus.spring.repository;
 import ru.otus.spring.domain.Author;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface AuthorRepository {
 
-    void save(Author author);
+    Author save(Author author);
 
-    Author getById(long id);
+    Optional<Author> getById(long id);
 
     List<Author> getAll();
 

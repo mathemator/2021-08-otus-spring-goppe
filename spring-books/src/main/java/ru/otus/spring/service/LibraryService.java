@@ -2,6 +2,7 @@ package ru.otus.spring.service;
 
 import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
+import ru.otus.spring.domain.Comment;
 import ru.otus.spring.domain.Genre;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public interface LibraryService {
 
     void addGenre(Genre genre);
 
-    Genre getGenreById(long id);
+    Optional<Genre> getGenreById(long id);
 
     List<Genre> getAllGenres();
 
@@ -33,11 +34,21 @@ public interface LibraryService {
 
     void addAuthor(Author genre);
 
-    Author getAuthorById(long id);
+    Optional<Author> getAuthorById(long id);
 
     List<Author> getAllAuthors();
 
     void removeAuthorById(long id);
+
+    void addComment(Comment comment) ;
+
+    Optional<Comment> getCommentById(long id);
+
+    List<Comment> getAllComment() ;
+
+    void removeCommentById(long id);
+
+    List<Comment> getCommentsByBookId(long id);
 
 
 }

@@ -17,9 +17,9 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne(targetEntity = Book.class, cascade = CascadeType.ALL)
-    private Book book;
-
     @Column(name = "text", nullable = false, unique = true)
     private String text;
+
+    @ManyToOne(targetEntity = Book.class, cascade = CascadeType.ALL)
+    private Book book;
 }

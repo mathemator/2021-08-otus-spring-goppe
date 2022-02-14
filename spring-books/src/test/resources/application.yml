@@ -1,6 +1,7 @@
 spring:
   datasource:
     url: jdbc:h2:mem:testdb
+#    initialization-mode: always
   shell:
     interactive:
       enabled: false
@@ -8,4 +9,14 @@ spring:
     init:
       mode: always
       data-locations: data.sql
-      #schema-locations: schema.sql
+  jpa:
+    generate-ddl: false
+    #generate-ddl: true
+    hibernate:
+      ddl-auto: none
+      #ddl-auto: create-drop
+    #show-sql: true
+
+logging:
+  level:
+    ROOT: ERROR

@@ -2,6 +2,7 @@ package ru.otus.spring.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Fetch;
@@ -13,15 +14,15 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity // Указывает, что данный класс является сущностью
-@Table(name = "book") // Задает имя таблицы, на которую будет отображаться сущность
+@Entity
+@Table(name = "book")
 @NamedEntityGraph(name = "book-entity-graph",
         attributeNodes = {@NamedAttributeNode("author"),
                 @NamedAttributeNode("genre")})
 public class Book {
 
-    @Id // Позволяет указать какое поле является идентификатором
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Стратегия генерации идентификаторов
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "title", nullable = false)

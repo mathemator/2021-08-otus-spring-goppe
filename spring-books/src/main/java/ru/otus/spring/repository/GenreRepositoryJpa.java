@@ -1,37 +1,53 @@
 package ru.otus.spring.repository;
 
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.stereotype.Repository;
+import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Genre;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Collections;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public class GenreRepositoryJpa implements GenreRepository {
 
+    @PersistenceContext
+    private final EntityManager em;
 
-    @Override
-    public void save(Genre genre) {
-
+    public GenreRepositoryJpa(EntityManager em) {
+        this.em = em;
     }
 
     @Override
-    public Genre getById(long id) {
-        return null;
+    public Genre save(Genre genre) {
+        if (genre.getId() <= 0) {
+            em.persist(genre);
+            return genre;
+        } else {
+            return em.merge(genre);
+        }
+    }
+
+    @Override
+    public Optional<Genre> getById(long id) {
+        return Optional.ofNullable(em.find(Genre.class, id));
     }
 
     @Override
     public List<Genre> getAll() {
-        return null;
+        TypedQuery<Genre> query = em.createQuery("select g from Genre g", Genre.class);
+        return query.getResultList();
     }
 
     @Override
     public void deleteById(long id) {
-
+        Query query = em.createQuery("delete " +
+                "from Genre a " +
+                "where a.id = :id");
+        query.setParameter("id", id);
+        query.executeUpdate();
     }
 }

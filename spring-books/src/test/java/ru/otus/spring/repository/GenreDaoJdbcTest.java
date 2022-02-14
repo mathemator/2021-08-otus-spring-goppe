@@ -2,35 +2,41 @@ package ru.otus.spring.repository;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
-import org.springframework.dao.EmptyResultDataAccessException;
 import ru.otus.spring.domain.Genre;
 
 import java.util.List;
+import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
-@JdbcTest
+@DataJpaTest
 @Import(GenreRepositoryJpa.class)
 class GenreDaoJdbcTest {
 
     @Autowired
-    private GenreRepositoryJpa genreDao;
+    private GenreRepositoryJpa genreRepositoryJpa;
+
+
+    @Autowired
+    private TestEntityManager em;
+
 
     @Test
-    void insert() {
-        Genre expected = new Genre(4, "DETECTIVE");
-        genreDao.save(expected);
-        Genre actual = genreDao.getById(expected.getId());
+    void save() {
+        Genre expected = new Genre(4, "NEW GENRE");
+        Genre actual = genreRepositoryJpa.save(expected);
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
     }
 
     @Test
     void getById() {
-        Genre expected = new Genre(1, "NOVEL");
-        Genre actual = genreDao.getById(expected.getId());
-        assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
+        Optional<Genre> optionalGenre = genreRepositoryJpa.getById(1);
+        Genre expectedGenre = em.find(Genre.class, 1L);
+        assertThat(optionalGenre).isPresent().get()
+                .usingRecursiveComparison().isEqualTo(expectedGenre);
     }
 
     @Test
@@ -38,20 +44,18 @@ class GenreDaoJdbcTest {
         Genre expected = new Genre(1, "NOVEL");
         Genre expected2 = new Genre(2, "COMEDY");
         Genre expected3 = new Genre(3, "TEST GENRE");
-        List<Genre> actualAuthorList = genreDao.getAll();
-        assertThat(actualAuthorList)
+        List<Genre> actualGenreList = genreRepositoryJpa.getAll();
+        assertThat(actualGenreList)
                 .usingFieldByFieldElementComparator()
                 .containsExactlyInAnyOrder(expected, expected2, expected3);
     }
 
     @Test
     void deleteById() {
-        assertThatCode(() -> genreDao.getById(3))
-                .doesNotThrowAnyException();
+        assertThat(genreRepositoryJpa.getById(3).isPresent());
 
-        genreDao.deleteById(3);
+        genreRepositoryJpa.deleteById(3);
 
-        assertThatThrownBy(() -> genreDao.getById(3))
-                .isInstanceOf(EmptyResultDataAccessException.class);
+        assertThat(genreRepositoryJpa.getById(3).isEmpty());
     }
 }

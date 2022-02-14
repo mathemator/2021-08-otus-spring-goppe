@@ -1,14 +1,15 @@
 package ru.otus.spring.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
-import ru.otus.spring.repository.AuthorRepository;
-import ru.otus.spring.repository.BookRepository;
-import ru.otus.spring.repository.GenreRepository;
 import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
+import ru.otus.spring.domain.Comment;
 import ru.otus.spring.domain.Genre;
+import ru.otus.spring.repository.AuthorRepository;
+import ru.otus.spring.repository.BookRepository;
+import ru.otus.spring.repository.CommentRepository;
+import ru.otus.spring.repository.GenreRepository;
 
 import java.util.Collections;
 import java.util.List;
@@ -18,91 +19,109 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class LibraryServiceImpl implements LibraryService {
 
-    private final AuthorRepository authorDao;
-    private final BookRepository bookDao;
-    private final GenreRepository genreDao;
+    private final AuthorRepository authorRepository;
+    private final BookRepository bookRepository;
+    private final GenreRepository genreRepository;
+    private final CommentRepository commentRepository;
 
     @Override
     public Optional<Book> getBookById(long id) {
-        return bookDao.getById(id);
+        return bookRepository.getById(id);
     }
 
     @Override
     public void addBook(String bookName, long authorId, long genreId) {
-        Author author;
-        try {
-            author = getAuthorById(authorId);
-        } catch (EmptyResultDataAccessException e) {
-            throw new RuntimeException("author does not exist");
-        }
-        Genre genre;
-        try {
-            genre = getGenreById(genreId);
-        } catch (EmptyResultDataAccessException e) {
-            throw new RuntimeException("genre does not exist");
-        }
+        Author author = getAuthorById(authorId).orElseThrow(() -> new RuntimeException("author does not exist"));
+
+        Genre genre = getGenreById(genreId).orElseThrow(() -> new RuntimeException("genre does not exist"));
+
         Book book = new Book(0, bookName.toUpperCase(), author, genre, Collections.emptyList());
 
-        bookDao.save(book);
+        bookRepository.save(book);
     }
 
     @Override
     public List<Book> getAllBooks() {
-        return bookDao.getAll();
+        return bookRepository.getAll();
     }
 
     @Override
     public List<Book> getBooksByGenre(String genreName) {
-        return bookDao.getByGenre(genreName.toUpperCase());
+        return bookRepository.getByGenre(genreName.toUpperCase());
     }
 
     @Override
     public List<Book> getBooksByAuthor(String authorName) {
-        return bookDao.getByAuthor(authorName.toUpperCase());
+        return bookRepository.getByAuthor(authorName.toUpperCase());
     }
 
     @Override
     public void removeBookById(long id) {
-        bookDao.deleteById(id);
+        bookRepository.deleteById(id);
     }
 
     @Override
     public void addGenre(Genre genre) {
-        genreDao.save(genre);
+        genreRepository.save(genre);
     }
 
     @Override
-    public Genre getGenreById(long id) {
-        return genreDao.getById(id);
+    public Optional<Genre> getGenreById(long id) {
+        return genreRepository.getById(id);
     }
 
     @Override
     public List<Genre> getAllGenres() {
-        return genreDao.getAll();
+        return genreRepository.getAll();
     }
 
     @Override
     public void removeGenreById(long id) {
-        genreDao.deleteById(id);
+        genreRepository.deleteById(id);
     }
 
     @Override
     public void addAuthor(Author author) {
-        authorDao.save(author);
+        authorRepository.save(author);
     }
 
     @Override
-    public Author getAuthorById(long id) {
-        return authorDao.getById(id);
+    public Optional<Author> getAuthorById(long id) {
+        return authorRepository.getById(id);
     }
 
     @Override
     public List<Author> getAllAuthors() {
-        return authorDao.getAll();
+        return authorRepository.getAll();
     }
 
     @Override
     public void removeAuthorById(long id) {
-        authorDao.deleteById(id);
+        authorRepository.deleteById(id);
+    }
+
+    @Override
+    public void addComment(Comment comment) {
+        commentRepository.save(comment);
+    }
+
+    @Override
+    public Optional<Comment> getCommentById(long id) {
+        return commentRepository.getById(id);
+    }
+
+    @Override
+    public List<Comment> getAllComment() {
+        return commentRepository.getAll();
+    }
+
+    @Override
+    public void removeCommentById(long id) {
+        commentRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Comment> getCommentsByBookId(long id) {
+        return commentRepository.getByBookId(id);
     }
 }
