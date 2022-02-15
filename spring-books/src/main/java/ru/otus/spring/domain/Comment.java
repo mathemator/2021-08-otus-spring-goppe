@@ -20,6 +20,6 @@ public class Comment {
     @Column(name = "text", nullable = false, unique = true)
     private String text;
 
-    @ManyToOne(targetEntity = Book.class, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = Book.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Book book;
 }

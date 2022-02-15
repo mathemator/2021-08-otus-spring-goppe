@@ -36,7 +36,6 @@ public class Book {
     @JoinColumn(name = "genre_id")
     private Genre genre;
 
-    @Fetch(FetchMode.SUBSELECT)
     @BatchSize(size = 5)
     @OneToMany(mappedBy = "book", targetEntity = Comment.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Comment> comments;
