@@ -1,0 +1,10 @@
+spring:
+    messages:
+        basename: i18n/messages
+        encoding: CP1251
+
+quiz:
+    pass-number: 3
+    resource-path: /test_${locale}.csv
+
+locale: ru-RU
