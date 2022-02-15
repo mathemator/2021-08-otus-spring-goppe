@@ -5,6 +5,6 @@ spring:
 
 quiz:
     pass-number: 3
-    resource-path: /test.csv
+    resource-path: /test_${locale}.csv
 
 locale: ru-RU

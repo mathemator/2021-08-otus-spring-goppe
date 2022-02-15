@@ -23,7 +23,7 @@ public class QuestionsLoaderImplTest {
     void loadQuestions() {
         Question que = new Question("question?", Arrays.asList("answer1", "answer2"), 1);
         Mockito.when(questionParserMock.fromLine(Mockito.anyString())).thenReturn(que);
-        QuestionsLoaderImpl questionsLoader = new QuestionsLoaderImpl(questionParserMock, "/test.csv");
+        QuestionsLoaderImpl questionsLoader = new QuestionsLoaderImpl(questionParserMock, "/test_ru-RU.csv");
         List<Question> questionList = questionsLoader.loadQuestions();
 
         assertThat(questionList)
