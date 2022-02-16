@@ -28,7 +28,7 @@ public class LibraryServiceImpl implements LibraryService {
     @Override
     @Transactional(readOnly = true)
     public Optional<Book> getBookById(long id) {
-        return bookRepository.getById(id);
+        return bookRepository.findById(id);
     }
 
     @Override
@@ -46,19 +46,19 @@ public class LibraryServiceImpl implements LibraryService {
     @Override
     @Transactional(readOnly = true)
     public List<Book> getAllBooks() {
-        return bookRepository.getAll();
+        return bookRepository.findAll();
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Book> getBooksByGenre(String genreName) {
-        return bookRepository.getByGenre(genreName.toUpperCase());
+        return bookRepository.findByGenreName(genreName.toUpperCase());
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Book> getBooksByAuthor(String authorName) {
-        return bookRepository.getByAuthor(authorName.toUpperCase());
+        return bookRepository.findByAuthorName(authorName.toUpperCase());
     }
 
     @Override
@@ -76,13 +76,13 @@ public class LibraryServiceImpl implements LibraryService {
     @Override
     @Transactional(readOnly = true)
     public Optional<Genre> getGenreById(long id) {
-        return genreRepository.getById(id);
+        return genreRepository.findById(id);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Genre> getAllGenres() {
-        return genreRepository.getAll();
+        return genreRepository.findAll();
     }
 
     @Override
@@ -100,13 +100,13 @@ public class LibraryServiceImpl implements LibraryService {
     @Override
     @Transactional(readOnly = true)
     public Optional<Author> getAuthorById(long id) {
-        return authorRepository.getById(id);
+        return authorRepository.findById(id);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Author> getAllAuthors() {
-        return authorRepository.getAll();
+        return authorRepository.findAll();
     }
 
     @Override
@@ -125,13 +125,13 @@ public class LibraryServiceImpl implements LibraryService {
     @Override
     @Transactional(readOnly = true)
     public Optional<Comment> getCommentById(long id) {
-        return commentRepository.getById(id);
+        return commentRepository.findById(id);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Comment> getAllComments() {
-        return commentRepository.getAll();
+        return commentRepository.findAll();
     }
 
     @Override
@@ -143,6 +143,6 @@ public class LibraryServiceImpl implements LibraryService {
     @Override
     @Transactional(readOnly = true)
     public List<Comment> getCommentsByBookId(long id) {
-        return commentRepository.getByBookId(id);
+        return commentRepository.findByBookId(id);
     }
 }

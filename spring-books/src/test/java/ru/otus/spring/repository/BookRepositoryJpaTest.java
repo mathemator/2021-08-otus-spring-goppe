@@ -4,8 +4,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.context.annotation.Import;
-import org.springframework.dao.EmptyResultDataAccessException;
 import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
 import ru.otus.spring.domain.Comment;
@@ -19,11 +17,10 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.*;
 
 @DataJpaTest
-@Import(BookRepositoryJpa.class)
 class BookRepositoryJpaTest {
 
     @Autowired
-    private BookRepositoryJpa bookRepositoryJpa;
+    private BookRepository bookRepository;
 
     @Autowired
     private TestEntityManager em;
@@ -32,13 +29,13 @@ class BookRepositoryJpaTest {
     void save() {
         Book expectedBook = new Book(2, "TEST", new Author(2, "TEST AUTHOR 2"), new Genre(2, "TEST GENRE 2"),
                 Collections.emptyList());
-        Book savedBook = bookRepositoryJpa.save(expectedBook);
+        Book savedBook = bookRepository.save(expectedBook);
         assertThat(savedBook).usingRecursiveComparison().isEqualTo(expectedBook);
     }
 
     @Test
     void getById() {
-        Optional<Book> optionalbook = bookRepositoryJpa.getById(1);
+        Optional<Book> optionalbook = bookRepository.findById(1);
         Book expectedBook = em.find(Book.class, 1L);
         assertThat(optionalbook).isPresent().get()
                 .usingRecursiveComparison().isEqualTo(expectedBook);
@@ -53,7 +50,7 @@ class BookRepositoryJpaTest {
 
         Book expected3 = new Book(3, "DEAD SOULS", new Author(2, "NIKOLAY GOGOL"), new Genre(1, "NOVEL"), new ArrayList<>());
         expected3.getComments().add(new Comment(2, "GOOD TOO", expected3));
-        List<Book> actualAuthorList = bookRepositoryJpa.getAll();
+        List<Book> actualAuthorList = bookRepository.findAll();
         assertThat(actualAuthorList)
                 .usingRecursiveFieldByFieldElementComparator()
                 .contains(expected, expected2, expected3);
@@ -66,7 +63,7 @@ class BookRepositoryJpaTest {
 
         Book expected3 = new Book(3, "DEAD SOULS", new Author(2, "NIKOLAY GOGOL"), new Genre(1, "NOVEL"), new ArrayList<>());
         expected3.getComments().add(new Comment(2, "GOOD TOO", expected3));
-        List<Book> actualAuthorList = bookRepositoryJpa.getByGenre("NOVEL");
+        List<Book> actualAuthorList = bookRepository.findByGenreName("NOVEL");
         assertThat(actualAuthorList)
                 .usingRecursiveFieldByFieldElementComparator()
                 .containsExactlyInAnyOrder(expected, expected3);
@@ -78,7 +75,7 @@ class BookRepositoryJpaTest {
 
         Book expected3 = new Book(3, "DEAD SOULS", new Author(2, "NIKOLAY GOGOL"), new Genre(1, "NOVEL"), new ArrayList<>());
         expected3.getComments().add(new Comment(2, "GOOD TOO", expected3));
-        List<Book> actualAuthorList = bookRepositoryJpa.getByAuthor("NIKOLAY GOGOL");
+        List<Book> actualAuthorList = bookRepository.findByAuthorName("NIKOLAY GOGOL");
         assertThat(actualAuthorList)
                 .usingRecursiveFieldByFieldElementComparator()
                 .containsExactlyInAnyOrder(expected2, expected3);
@@ -86,11 +83,11 @@ class BookRepositoryJpaTest {
 
     @Test
     void deleteById() {
-        assertThat(bookRepositoryJpa.getById(3).isPresent());
+        assertThat(bookRepository.findById(3).isPresent());
 
-        bookRepositoryJpa.deleteById(3);
+        bookRepository.deleteById(3);
 
-        assertThat(bookRepositoryJpa.getById(3).isEmpty());
+        assertThat(bookRepository.findById(3).isEmpty());
     }
 
 }
