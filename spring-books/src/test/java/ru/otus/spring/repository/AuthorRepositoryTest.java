@@ -2,9 +2,10 @@ package ru.otus.spring.repository;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.context.annotation.Import;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import ru.otus.spring.domain.Author;
 
 import java.util.List;
@@ -12,14 +13,14 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataJpaTest
+@DataMongoTest
 class AuthorRepositoryTest {
 
     @Autowired
     private AuthorRepository authorRepository;
 
     @Autowired
-    private TestEntityManager em;
+    private MongoTemplate mongoTemplate;
 
     @Test
     void saveNew() {
@@ -38,8 +39,8 @@ class AuthorRepositoryTest {
 
     @Test
     void getById() {
-        Optional<Author> optionalAuthor = authorRepository.findById(1);
-        Author expectedAuthor = em.find(Author.class, 1L);
+        Optional<Author> optionalAuthor = authorRepository.findById(1L);
+        Author expectedAuthor = mongoTemplate.findOne(Query.query(Criteria.where("id").is(1)), Author.class);
         assertThat(optionalAuthor).isPresent().get()
                 .usingRecursiveComparison().isEqualTo(expectedAuthor);
     }
@@ -57,10 +58,10 @@ class AuthorRepositoryTest {
 
     @Test
     void deleteById() {
-        assertThat(authorRepository.findById(3).isPresent());
+        assertThat(authorRepository.findById(3L).isPresent());
 
-        authorRepository.deleteById(3);
+        authorRepository.deleteById(3L);
 
-        assertThat(authorRepository.findById(3).isEmpty());
+        assertThat(authorRepository.findById(3L).isEmpty());
     }
 }

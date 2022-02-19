@@ -30,7 +30,6 @@ public class LibraryServiceImpl implements LibraryService {
     public Optional<Book> getBookById(long id) {
         return bookRepository.findById(id);
     }
-
     @Override
     @Transactional
     public void saveBook(long bookId, String title, long authorId, long genreId) {
@@ -38,7 +37,7 @@ public class LibraryServiceImpl implements LibraryService {
 
         Genre genre = getGenreById(genreId).orElseThrow(() -> new RuntimeException("genre does not exist"));
 
-        Book book = new Book(bookId, title.toUpperCase(), author, genre, Collections.emptyList());
+        Book book = new Book(bookId, title.toUpperCase(), author, genre);
 
         bookRepository.save(book);
     }

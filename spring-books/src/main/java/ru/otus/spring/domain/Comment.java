@@ -1,25 +1,25 @@
 package ru.otus.spring.domain;
 
 import lombok.*;
-
-import javax.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 @EqualsAndHashCode(exclude = "book")
 @ToString(exclude = "book")
-@Table(name = "comment")
+@Document(collection = "comment")
 public class Comment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "text", nullable = false, unique = true)
+    @Field(name = "text")
     private String text;
 
-    @ManyToOne(targetEntity = Book.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @Field(name = "book")
     private Book book;
 }

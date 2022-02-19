@@ -2,33 +2,32 @@ package ru.otus.spring.repository;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
 import ru.otus.spring.domain.Comment;
 import ru.otus.spring.domain.Genre;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataJpaTest
+@DataMongoTest
 class CommentRepositoryTest {
 
     @Autowired
     private CommentRepository commentRepository;
 
     @Autowired
-    private TestEntityManager entityManager;
+    private MongoTemplate mongoTemplate;
 
     @Test
     void save() {
-        Book book = new Book(1, "THE CASTLE", new Author(1, "FRANZ KAFKA"), new Genre(1, "NOVEL"), new ArrayList<>());
+        Book book = new Book(1, "THE CASTLE", new Author(1, "FRANZ KAFKA"), new Genre(1, "NOVEL"));
         Comment expected = new Comment(3, "NEW Comment", book);
         Comment actual = commentRepository.save(expected);
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
@@ -37,7 +36,7 @@ class CommentRepositoryTest {
     @Test
     void getById() {
         Optional<Comment> optionalComment = commentRepository.findById(1);
-        Comment expectedComment = entityManager.find(Comment.class, 1L);
+        Comment expectedComment = mongoTemplate.findOne(Query.query(Criteria.where("id").is(1)), Comment.class);
         assertThat(optionalComment).isPresent().get()
                 .usingRecursiveComparison().isEqualTo(expectedComment);
     }

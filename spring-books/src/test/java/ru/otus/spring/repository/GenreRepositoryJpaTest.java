@@ -2,8 +2,10 @@ package ru.otus.spring.repository;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import ru.otus.spring.domain.Genre;
 
 import java.util.List;
@@ -11,14 +13,14 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataJpaTest
+@DataMongoTest
 class GenreRepositoryJpaTest {
 
     @Autowired
     private GenreRepository genreRepository;
 
     @Autowired
-    private TestEntityManager em;
+    private MongoTemplate mongoTemplate;
 
     @Test
     void save() {
@@ -30,7 +32,7 @@ class GenreRepositoryJpaTest {
     @Test
     void getById() {
         Optional<Genre> optionalGenre = genreRepository.findById(1);
-        Genre expectedGenre = em.find(Genre.class, 1L);
+        Genre expectedGenre = mongoTemplate.findOne(Query.query(Criteria.where("id").is(1)), Genre.class);
         assertThat(optionalGenre).isPresent().get()
                 .usingRecursiveComparison().isEqualTo(expectedGenre);
     }

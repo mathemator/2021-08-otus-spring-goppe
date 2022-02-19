@@ -5,7 +5,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-//import org.springframework.shell.Shell;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.shell.Shell;
 import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
@@ -14,15 +14,13 @@ import ru.otus.spring.domain.Genre;
 import ru.otus.spring.representation.RepresentationUtil;
 import ru.otus.spring.service.LibraryService;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
 
+@EnableMongoRepositories
 @SpringBootTest({"spring.main.allow-bean-definition-overriding=true"})
 class ApplicationCommandsTest {
 
@@ -76,7 +74,7 @@ class ApplicationCommandsTest {
 
     @Test
     void getBook() {
-        Book book = new Book(1, "THE CASTLE", new Author(1, "FRANZ KAFKA"), new Genre(1, "NOVEL"), Collections.emptyList());
+        Book book = new Book(1, "THE CASTLE", new Author(1, "FRANZ KAFKA"), new Genre(1, "NOVEL"));
         Mockito.when(libraryService.getBookById(Mockito.anyLong())).thenReturn(Optional.of(book));
         String res = (String) shell.evaluate(() -> "gb 1");
         assertThat(res).isEqualTo(RepresentationUtil.bookView(book));
@@ -84,8 +82,8 @@ class ApplicationCommandsTest {
 
     @Test
     void getBooksByAuthor() {
-        Book book1 = new Book(1, "TITLE", new Author(1, "AUTHOR"), new Genre(1, "NOVEL"), Collections.emptyList());
-        Book book2 = new Book(1, "TITLE 2", new Author(1, "AUTHOR"), new Genre(1, "NOVEL"), Collections.emptyList());
+        Book book1 = new Book(1, "TITLE", new Author(1, "AUTHOR"), new Genre(1, "NOVEL"));
+        Book book2 = new Book(1, "TITLE 2", new Author(1, "AUTHOR"), new Genre(1, "NOVEL"));
         List<Book> expectedList = List.of(book1, book2);
         Mockito.when(libraryService.getBooksByAuthor(Mockito.anyString())).thenReturn(expectedList);
         String res = (String) shell.evaluate(() -> "gba AUTHOR");
@@ -95,8 +93,8 @@ class ApplicationCommandsTest {
 
     @Test
     void getBooksByGenre() {
-        Book book1 = new Book(1, "TITLE", new Author(1, "AUTHOR"), new Genre(1, "NOVEL"), Collections.emptyList());
-        Book book2 = new Book(1, "TITLE 2", new Author(1, "AUTHOR"), new Genre(1, "NOVEL"), Collections.emptyList());
+        Book book1 = new Book(1, "TITLE", new Author(1, "AUTHOR"), new Genre(1, "NOVEL"));
+        Book book2 = new Book(1, "TITLE 2", new Author(1, "AUTHOR"), new Genre(1, "NOVEL"));
         List<Book> expectedList = List.of(book1, book2);
         Mockito.when(libraryService.getBooksByGenre(Mockito.anyString())).thenReturn(expectedList);
         String res = (String) shell.evaluate(() -> "gbg GENRE");
@@ -106,8 +104,8 @@ class ApplicationCommandsTest {
 
     @Test
     void getAllBooks() {
-        Book book1 = new Book(1, "TITLE", new Author(1, "AUTHOR"), new Genre(1, "NOVEL"), Collections.emptyList());
-        Book book2 = new Book(1, "TITLE 2", new Author(1, "AUTHOR"), new Genre(1, "NOVEL"), Collections.emptyList());
+        Book book1 = new Book(1, "TITLE", new Author(1, "AUTHOR"), new Genre(1, "NOVEL"));
+        Book book2 = new Book(1, "TITLE 2", new Author(1, "AUTHOR"), new Genre(1, "NOVEL"));
         List<Book> expectedList = List.of(book1, book2);
         Mockito.when(libraryService.getAllBooks()).thenReturn(expectedList);
         String res = (String) shell.evaluate(() -> "gab");
