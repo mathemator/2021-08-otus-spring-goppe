@@ -1,4 +1,4 @@
-package ru.otus.spring.quiz;
+package ru.otus.spring.question;
 
 public enum PassageStatus {
     SUCCESS, FAILED

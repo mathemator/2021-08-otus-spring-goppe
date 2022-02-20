@@ -41,17 +41,7 @@ public class IntegrationTest {
     @Test
     public void simpleIntegrationTest() {
 
-        String res = (String) shell.evaluate(() -> "l");
-        assertThat(res).isEqualTo("Текущий пользователь: testUser возраст: 30");
-
         String res2 = (String) shell.evaluate(() -> "quiz");
         assertThat(res2).isEqualTo("Всего доброго!");
     }
-
-    @Test
-    public void testAvailability() {
-        Object res = shell.evaluate(() -> "quiz");
-        assertThat(res).isInstanceOf(CommandNotCurrentlyAvailable.class);
-    }
-
 }

@@ -1,4 +1,4 @@
-package ru.otus.spring.quiz.question;
+package ru.otus.spring.question;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

@@ -1,56 +1,22 @@
 package ru.otus.spring.shell;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.shell.Availability;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
-import org.springframework.shell.standard.ShellMethodAvailability;
-import ru.otus.spring.domain.Person;
-import ru.otus.spring.io.IOService;
 import ru.otus.spring.message.MessageProvider;
-import ru.otus.spring.person.PersonService;
-import ru.otus.spring.quiz.loading.QuestionsLoader;
-import ru.otus.spring.quiz.question.Question;
-import ru.otus.spring.quiz.service.QuizService;
-
-import java.util.List;
+import ru.otus.spring.service.QuizService;
 
 @ShellComponent
 @RequiredArgsConstructor
 public class ApplicationCommands {
 
-    private final IOService ioService;
     private final MessageProvider messageProvider;
-    private final PersonService personService;
-    private final QuestionsLoader questionsLoader;
     private final QuizService quizService;
 
-    private String userName;
-    private Integer age;
+    @ShellMethod(value = "perform quiz", key = {"q", "quiz"})
+    public String performQuiz() {
+        quizService.performQuiz();
 
-
-    @ShellMethod(value = "Login command", key = {"l", "login"})
-    public String login() {
-        ioService.out(messageProvider.getMessage("strings.enter-name"));
-        this.userName = ioService.readString();
-
-        ioService.out(messageProvider.getMessage("strings.enter-age"));
-        this.age = Integer.parseInt(ioService.readString());
-        Person user = personService.makeNew(this.userName, age);
-        return messageProvider.getMessage("strings.current-user") + ": " + user.getName() + " " +
-                messageProvider.getMessage("strings.current-age") + ": " + user.getAge();
-    }
-
-    @ShellMethod(value = "Display questions", key = {"q", "quiz"})
-    @ShellMethodAvailability(value = "isDisplayAvailable")
-    public String display() {
-        List<Question> questionList = questionsLoader.loadQuestions();
-        quizService.test(questionList);
-
-        return "Всего доброго!";
-    }
-
-    private Availability isDisplayAvailable() {
-        return userName == null || age == null ? Availability.unavailable("Сначала представьтесь") : Availability.available();
+        return messageProvider.getMessage("strings.farewell");
     }
 }
