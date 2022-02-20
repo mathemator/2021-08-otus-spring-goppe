@@ -181,17 +181,6 @@ class LibraryServiceImplTest {
     }
 
     @Test
-    void getAllComments() {
-        Comment comment1 = new Comment(1, "TEST", new Book());
-        Comment comment2 = new Comment(2, "TEST2", new Book());
-        when(commentRepositoryMock.findAll()).thenReturn(List.of(comment1, comment2));
-        List<Comment> actual = libraryService.getAllComments();
-        assertThat(actual)
-                .usingFieldByFieldElementComparator()
-                .containsExactlyInAnyOrder(comment1, comment2);
-    }
-
-    @Test
     void deleteCommentById() {
         libraryService.deleteCommentById(1);
         verify(commentRepositoryMock, times(1)).deleteById(1);

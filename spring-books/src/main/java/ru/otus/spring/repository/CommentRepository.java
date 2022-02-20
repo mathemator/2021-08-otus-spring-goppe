@@ -13,9 +13,6 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     Optional<Comment> findById(long id);
 
-    @Query("select c from Comment c join fetch c.book")
-    List<Comment> findAll();
-
     List<Comment> findByBookId(long id);
 
     void deleteById(long id);

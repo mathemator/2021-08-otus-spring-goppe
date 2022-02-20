@@ -44,8 +44,6 @@ public interface LibraryService {
 
     Optional<Comment> getCommentById(long id);
 
-    List<Comment> getAllComments();
-
     void deleteCommentById(long id);
 
     List<Comment> getCommentsByBookId(long id);

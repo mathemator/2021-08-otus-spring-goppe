@@ -136,13 +136,6 @@ public class ApplicationCommands {
         return allGenres.stream().map(RepresentationUtil::genreView).collect(Collectors.joining("\n"));
     }
 
-    @ShellMethod(value = "get all genres", key = {"gac", "get-all-comments"})
-    public String getAllComments() {
-        List<Comment> allComments = libraryService.getAllComments();
-
-        return allComments.stream().map(RepresentationUtil::commentView).collect(Collectors.joining("\n"));
-    }
-
     @ShellMethod(value = "get comments", key = {"gbc", "get-book-comments"})
     public String getBookComments(@ShellOption("-bid") long bookId) {
 

@@ -129,12 +129,6 @@ public class LibraryServiceImpl implements LibraryService {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<Comment> getAllComments() {
-        return commentRepository.findAll();
-    }
-
-    @Override
     @Transactional
     public void deleteCommentById(long id) {
         commentRepository.deleteById(id);

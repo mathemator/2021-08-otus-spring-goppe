@@ -43,17 +43,6 @@ class CommentRepositoryTest {
     }
 
     @Test
-    void getAll() {
-        Comment expected = new Comment(1, "GOOD STUFF", new Book());
-        Comment expected2 = new Comment(2, "GOOD TOO", new Book());
-        List<Comment> actualCommentList = commentRepository.findAll();
-
-        assertThat(actualCommentList)
-                .usingDefaultComparator()
-                .containsExactlyInAnyOrder(expected, expected2);
-    }
-
-    @Test
     void getByBookId() {
         Comment expected = new Comment(1, "GOOD STUFF", new Book());
         List<Comment> actualCommentList = commentRepository.findByBookId(1L);
