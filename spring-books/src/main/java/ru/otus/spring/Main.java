@@ -16,10 +16,7 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) throws SQLException {
-
-        ConfigurableApplicationContext run = SpringApplication.run(Main.class);
-
-        Console.main();
-
+        SpringApplication.run(Main.class);
+//        Console.main();
     }
 }

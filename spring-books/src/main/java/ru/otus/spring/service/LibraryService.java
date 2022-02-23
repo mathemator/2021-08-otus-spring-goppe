@@ -12,7 +12,7 @@ public interface LibraryService {
 
     Optional<Book> getBookById(long id);
 
-    void saveBook(long bookId, String title, long authorId, long genreId);
+    Book saveBook(long bookId, String title, long authorId, long genreId);
 
     List<Book> getAllBooks();
 
@@ -22,7 +22,7 @@ public interface LibraryService {
 
     void deleteBookById(long id);
 
-    void saveGenre(long genreId, String genreName);
+    Genre saveGenre(long genreId, String genreName);
 
     Optional<Genre> getGenreById(long id);
 
@@ -30,7 +30,7 @@ public interface LibraryService {
 
     void deleteGenreById(long id);
 
-    void saveAuthor(long authorId, String authorName);
+    Author saveAuthor(long authorId, String authorName);
 
     Optional<Author> getAuthorById(long id);
 
@@ -38,7 +38,7 @@ public interface LibraryService {
 
     void deleteAuthorById(long id);
 
-    void saveComment(long commentId,
+    Comment saveComment(long commentId,
                      String text,
                      long bookId);
 

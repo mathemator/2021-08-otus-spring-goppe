@@ -28,7 +28,7 @@ class CommentRepositoryTest {
 
     @Test
     void save() {
-        Book book = new Book(1, "THE CASTLE", new Author(1, "FRANZ KAFKA"), new Genre(1, "NOVEL"), new ArrayList<>());
+        Book book = new Book(1, "THE CASTLE", new Author(1, "FRANZ KAFKA"), new Genre(1, "NOVEL"));
         Comment expected = new Comment(3, "NEW Comment", book);
         Comment actual = commentRepository.save(expected);
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);

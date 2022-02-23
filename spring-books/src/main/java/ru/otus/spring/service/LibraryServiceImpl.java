@@ -11,6 +11,7 @@ import ru.otus.spring.repository.AuthorRepository;
 import ru.otus.spring.repository.BookRepository;
 import ru.otus.spring.repository.CommentRepository;
 import ru.otus.spring.repository.GenreRepository;
+import ru.otus.spring.rest.NotFoundException;
 
 import java.util.Collections;
 import java.util.List;
@@ -33,14 +34,14 @@ public class LibraryServiceImpl implements LibraryService {
 
     @Override
     @Transactional
-    public void saveBook(long bookId, String title, long authorId, long genreId) {
-        Author author = getAuthorById(authorId).orElseThrow(() -> new RuntimeException("author does not exist"));
+    public Book saveBook(long bookId, String title, long authorId, long genreId) {
+        Author author = getAuthorById(authorId).orElseThrow(() -> new NotFoundException("author does not exist"));
 
-        Genre genre = getGenreById(genreId).orElseThrow(() -> new RuntimeException("genre does not exist"));
+        Genre genre = getGenreById(genreId).orElseThrow(() -> new NotFoundException("genre does not exist"));
 
-        Book book = new Book(bookId, title.toUpperCase(), author, genre, Collections.emptyList());
+        Book book = new Book(bookId, title.toUpperCase(), author, genre);
 
-        bookRepository.save(book);
+        return bookRepository.save(book);
     }
 
     @Override
@@ -69,8 +70,8 @@ public class LibraryServiceImpl implements LibraryService {
 
     @Override
     @Transactional
-    public void saveGenre(long genreid, String genreName) {
-        genreRepository.save(new Genre(genreid, genreName));
+    public Genre saveGenre(long genreid, String genreName) {
+        return genreRepository.save(new Genre(genreid, genreName));
     }
 
     @Override
@@ -93,8 +94,8 @@ public class LibraryServiceImpl implements LibraryService {
 
     @Override
     @Transactional
-    public void saveAuthor(long authorId, String authorName) {
-        authorRepository.save(new Author(authorId, authorName));
+    public Author saveAuthor(long authorId, String authorName) {
+        return authorRepository.save(new Author(authorId, authorName));
     }
 
     @Override
@@ -117,9 +118,9 @@ public class LibraryServiceImpl implements LibraryService {
 
     @Override
     @Transactional
-    public void saveComment(long commentId, String text, long bookId) {
+    public Comment saveComment(long commentId, String text, long bookId) {
         Book book = getBookById(bookId).orElseThrow(() -> new RuntimeException("book does not exist"));
-        commentRepository.save(new Comment(commentId, text, book));
+        return commentRepository.save(new Comment(commentId, text, book));
     }
 
     @Override

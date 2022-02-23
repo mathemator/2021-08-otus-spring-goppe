@@ -41,7 +41,7 @@ class LibraryServiceImplTest {
 
     @Test
     void getBookById() {
-        Optional<Book> expected = Optional.of(new Book(1, "THE CASTLE", new Author(1, "FRANZ KAFKA"), new Genre(1, "NOVEL"), new ArrayList<>()));
+        Optional<Book> expected = Optional.of(new Book(1, "THE CASTLE", new Author(1, "FRANZ KAFKA"), new Genre(1, "NOVEL")));
         when(bookRepositoryMock.findById(anyLong())).thenReturn(expected);
         Optional<Book> actual = libraryService.getBookById(1);
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
@@ -51,17 +51,18 @@ class LibraryServiceImplTest {
     void saveBook() {
         Optional<Author> testAuthor = Optional.of(new Author(1, "TEST_AUTHOR"));
         Optional<Genre> testGenre = Optional.of(new Genre(1, "TEST_GENRE"));
-        Book expected = new Book(0, "TEST", testAuthor.get(), testGenre.get(), Collections.emptyList());
+        Book expected = new Book(0, "TEST", testAuthor.get(), testGenre.get());
         when(authorRepositoryMock.findById(anyLong())).thenReturn(testAuthor);
         when(genreRepositoryMock.findById(anyLong())).thenReturn(testGenre);
-        libraryService.saveBook(0, "TEST", 1, 1);
+        Book actual = libraryService.saveBook(0, "TEST", 1, 1);
+        assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
         verify(bookRepositoryMock, times(1)).save(expected);
     }
 
     @Test
     void getAllBooks() {
-        Book book1 = new Book(1, "TEST", new Author(1, "TEST_AUTHOR"), new Genre(1, "TEST_GENRE"), Collections.emptyList());
-        Book book2 = new Book(2, "TEST2", new Author(2, "TEST_AUTHOR"), new Genre(1, "TEST_GENRE"), Collections.emptyList());
+        Book book1 = new Book(1, "TEST", new Author(1, "TEST_AUTHOR"), new Genre(1, "TEST_GENRE"));
+        Book book2 = new Book(2, "TEST2", new Author(2, "TEST_AUTHOR"), new Genre(1, "TEST_GENRE"));
         when(bookRepositoryMock.findAll()).thenReturn(List.of(book1, book2));
         List<Book> actual = libraryService.getAllBooks();
         assertThat(actual)
@@ -71,8 +72,8 @@ class LibraryServiceImplTest {
 
     @Test
     void getBooksByGenre() {
-        Book book1 = new Book(1, "TEST", new Author(2, "TEST_AUTHOR"), new Genre(1, "TEST_GENRE"), Collections.emptyList());
-        Book book2 = new Book(2, "TEST2", new Author(2, "TEST_AUTHOR"), new Genre(1, "TEST_GENRE"), Collections.emptyList());
+        Book book1 = new Book(1, "TEST", new Author(2, "TEST_AUTHOR"), new Genre(1, "TEST_GENRE"));
+        Book book2 = new Book(2, "TEST2", new Author(2, "TEST_AUTHOR"), new Genre(1, "TEST_GENRE"));
         when(bookRepositoryMock.findByGenreName(anyString())).thenReturn(List.of(book1, book2));
         List<Book> actual = libraryService.getBooksByGenre("TESTY");
         assertThat(actual)
@@ -82,8 +83,8 @@ class LibraryServiceImplTest {
 
     @Test
     void getBookstByAuthor() {
-        Book book1 = new Book(1, "TEST", new Author(2, "TEST_AUTHOR"), new Genre(1, "TEST_GENRE"), Collections.emptyList());
-        Book book2 = new Book(2, "TEST2", new Author(2, "TEST_AUTHOR"), new Genre(1, "TEST_GENRE"), Collections.emptyList());
+        Book book1 = new Book(1, "TEST", new Author(2, "TEST_AUTHOR"), new Genre(1, "TEST_GENRE"));
+        Book book2 = new Book(2, "TEST2", new Author(2, "TEST_AUTHOR"), new Genre(1, "TEST_GENRE"));
         when(bookRepositoryMock.findByAuthorName(anyString())).thenReturn(List.of(book1, book2));
         List<Book> actual = libraryService.getBooksByAuthor("TESTY");
         assertThat(actual)
@@ -100,7 +101,8 @@ class LibraryServiceImplTest {
     @Test
     void saveGenre() {
         Genre expected = new Genre(1, "TEST");
-        libraryService.saveGenre(1, "TEST");
+        Genre actual = libraryService.saveGenre(1, "TEST");
+        assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
         verify(genreRepositoryMock, times(1)).save(expected);
     }
 
@@ -132,7 +134,8 @@ class LibraryServiceImplTest {
     @Test
     void saveAuthor() {
         Author expected = new Author(1, "test");
-        libraryService.saveAuthor(1, "test");
+        Author actual = libraryService.saveAuthor(1, "test");
+        assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
         verify(authorRepositoryMock, times(1)).save(expected);
     }
 
@@ -165,10 +168,11 @@ class LibraryServiceImplTest {
 
     @Test
     void saveComment() {
-        Book book1 = new Book(1, "TEST", new Author(2, "TEST_AUTHOR"), new Genre(1, "TEST_GENRE"), Collections.emptyList());
+        Book book1 = new Book(1, "TEST", new Author(2, "TEST_AUTHOR"), new Genre(1, "TEST_GENRE"));
         Comment expected = new Comment(1, "TEST", book1);
         when(bookRepositoryMock.findById(anyLong())).thenReturn(Optional.of(book1));
-        libraryService.saveComment(1, "TEST", 1);
+        Comment actual = libraryService.saveComment(1, "TEST", 1);
+        assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
         verify(commentRepositoryMock, times(1)).save(expected);
     }
 
