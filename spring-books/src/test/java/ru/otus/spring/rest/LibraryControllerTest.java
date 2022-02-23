@@ -2,7 +2,6 @@ package ru.otus.spring.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -11,10 +10,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.ui.Model;
-import ru.otus.spring.domain.Author;
-import ru.otus.spring.domain.Book;
-import ru.otus.spring.domain.Genre;
 import ru.otus.spring.service.LibraryService;
 
 import java.util.List;
@@ -25,7 +20,6 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.otus.spring.rest.LibraryController.DEFAULT_BOOK;
@@ -39,9 +33,6 @@ class LibraryControllerTest {
     @MockBean
     private LibraryService libraryService;
 
-    @Mock
-    private Model model;
-
     @Test
     void listBooks() throws Exception {
         given(libraryService.getAllBooks())
@@ -49,7 +40,7 @@ class LibraryControllerTest {
         MvcResult mvcResult = mockMvc.perform(get("/books")).andExpect(status().isOk()).andReturn();
         String responseBody = mvcResult.getResponse().getContentAsString();
 
-        assertThat(responseBody).contains("<td>TEST BOOK</td>");
+        assertThat(responseBody).contains("<td>" + DEFAULT_BOOK.getTitle() + "</td>");
 
     }
 

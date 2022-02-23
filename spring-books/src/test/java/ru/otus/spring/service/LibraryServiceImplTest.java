@@ -3,8 +3,10 @@ package ru.otus.spring.service;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.jdbc.Sql;
 import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
 import ru.otus.spring.domain.Comment;
@@ -54,9 +56,9 @@ class LibraryServiceImplTest {
         Book expected = new Book(0, "TEST", testAuthor.get(), testGenre.get());
         when(authorRepositoryMock.findById(anyLong())).thenReturn(testAuthor);
         when(genreRepositoryMock.findById(anyLong())).thenReturn(testGenre);
+        when(bookRepositoryMock.save(Mockito.any())).thenReturn(expected);
         Book actual = libraryService.saveBook(0, "TEST", 1, 1);
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
-        verify(bookRepositoryMock, times(1)).save(expected);
     }
 
     @Test
@@ -101,9 +103,11 @@ class LibraryServiceImplTest {
     @Test
     void saveGenre() {
         Genre expected = new Genre(1, "TEST");
+
+        when(genreRepositoryMock.save(Mockito.any())).thenReturn(expected);
         Genre actual = libraryService.saveGenre(1, "TEST");
+
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
-        verify(genreRepositoryMock, times(1)).save(expected);
     }
 
     @Test
@@ -134,9 +138,10 @@ class LibraryServiceImplTest {
     @Test
     void saveAuthor() {
         Author expected = new Author(1, "test");
+        when(authorRepositoryMock.save(Mockito.any())).thenReturn(expected);
         Author actual = libraryService.saveAuthor(1, "test");
+
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
-        verify(authorRepositoryMock, times(1)).save(expected);
     }
 
     @Test
@@ -171,9 +176,9 @@ class LibraryServiceImplTest {
         Book book1 = new Book(1, "TEST", new Author(2, "TEST_AUTHOR"), new Genre(1, "TEST_GENRE"));
         Comment expected = new Comment(1, "TEST", book1);
         when(bookRepositoryMock.findById(anyLong())).thenReturn(Optional.of(book1));
+        when(commentRepositoryMock.save(Mockito.any())).thenReturn(expected);
         Comment actual = libraryService.saveComment(1, "TEST", 1);
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
-        verify(commentRepositoryMock, times(1)).save(expected);
     }
 
     @Test
