@@ -140,18 +140,6 @@ class ApplicationCommandsTest {
     }
 
     @Test
-    void getAllComments() {
-        Comment comment1 = new Comment(1, "TEST", new Book());
-        Comment comment2 = new Comment(2, "TEST2", new Book());
-
-        List<Comment> expectedList = List.of(comment1, comment2);
-        Mockito.when(libraryService.getAllComments()).thenReturn(expectedList);
-        String res = (String) shell.evaluate(() -> "gac");
-        assertThat(res).isEqualTo(
-                expectedList.stream().map(RepresentationUtil::commentView).collect(Collectors.joining("\n")));
-    }
-
-    @Test
     void getBookComments() {
         Comment comment1 = new Comment(1, "TEST", new Book());
         Comment comment2 = new Comment(2, "TEST2", new Book());
