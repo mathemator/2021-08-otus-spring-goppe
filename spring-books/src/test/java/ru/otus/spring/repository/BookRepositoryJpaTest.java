@@ -30,7 +30,7 @@ class BookRepositoryJpaTest {
 
     @Test
     void save() {
-        Book expectedBook = new Book(2, "TEST", new Author(2, "TEST AUTHOR 2"), new Genre(2, "TEST GENRE 2"));
+        Book expectedBook = new Book(4, "TEST", new Author(3, "TEST AUTHOR"), new Genre(3, "TEST GENRE"));
         Book savedBook = bookRepository.save(expectedBook);
         assertThat(savedBook).usingRecursiveComparison().isEqualTo(expectedBook);
     }
