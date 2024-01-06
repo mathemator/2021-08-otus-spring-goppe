@@ -12,10 +12,10 @@ import ru.otus.spring.repository.BookRepository;
 import ru.otus.spring.repository.CommentRepository;
 import ru.otus.spring.repository.GenreRepository;
 
-//@ChangeLog
+@ChangeLog
 public class DatabaseChangelog {
 
-    @ChangeSet(order = "001", id = "dropDb", author = "stvort", runAlways = true)
+    @ChangeSet(order = "001", id = "dropDb", author = "mathemator", runAlways = true)
     public void dropDb(MongoDatabase db) {
         db.drop();
     }
@@ -28,7 +28,7 @@ public class DatabaseChangelog {
         genreRepository.save(new Genre(1, "NOVEL"));
         genreRepository.save(new Genre(2, "COMEDY"));
 
-        authorRepository.save(new Author(1, "FRANZ KARKA"));
+        authorRepository.save(new Author(1, "FRANZ KAFKA"));
         authorRepository.save(new Author(2, "NIKOLAY GOGOL"));
 
         bookRepository.save(new Book(1, "THE CASTLE", new Author(1, "FRANZ KAFKA"), new Genre(1, "NOVEL")));

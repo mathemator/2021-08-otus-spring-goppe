@@ -15,11 +15,17 @@ public interface BookRepository extends MongoRepository<Book, Long> {
 
     List<Book> findAll();
 
+    List<Book> findByGenreId(long id);
+
     @Query("{'genre.name' : ?0}")
     List<Book> findByGenreName(String genreName);
 
     @Query(value = "{'author.name' : ?0 }", fields = "{ 'author.name' : 1 } ")
     List<Book> findByAuthorName(String authorName);
 
+    List<Book> findByAuthorId(long id);
+
     void deleteById(long id);
+
+    void deleteByGenreId(long id);
 }

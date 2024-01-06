@@ -18,8 +18,8 @@ public class Main {
 
         ConfigurableApplicationContext run = SpringApplication.run(Main.class);
 
-        BookRepository bean = run.getBean(BookRepository.class);
-        System.out.println(bean.findAll());
+//        BookRepository bean = run.getBean(BookRepository.class);
+//        System.out.println(bean.findAll());
 
     }
 }

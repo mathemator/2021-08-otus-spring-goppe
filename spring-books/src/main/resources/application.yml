@@ -9,7 +9,7 @@ spring:
 mongock:
   runner-type: "InitializingBean"
   change-logs-scan-package:
-    - ru.otus.spring.mongock.changelog.DatabaseChaneglog
+    - ru.otus.spring.mongock.changelog
 
 logging:
   level:
