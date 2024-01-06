@@ -12,7 +12,6 @@ import ru.otus.spring.repository.BookRepository;
 import ru.otus.spring.repository.CommentRepository;
 import ru.otus.spring.repository.GenreRepository;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,17 +26,15 @@ public class LibraryServiceImpl implements LibraryService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Book> getBookById(long id) {
+    public Optional<Book> getBookById(String id) {
         return bookRepository.findById(id);
     }
 
     @Override
     @Transactional
-    public void saveBook(long bookId, String title, long authorId, long genreId) {
+    public void saveBook(String bookId, String title, String authorId, String genreId) {
         Author author = getAuthorById(authorId).orElseThrow(() -> new RuntimeException("author does not exist"));
-
         Genre genre = getGenreById(genreId).orElseThrow(() -> new RuntimeException("genre does not exist"));
-
         Book book = new Book(bookId, title.toUpperCase(), author, genre);
 
         bookRepository.save(book);
@@ -63,20 +60,20 @@ public class LibraryServiceImpl implements LibraryService {
 
     @Override
     @Transactional
-    public void deleteBookById(long id) {
+    public void deleteBookById(String id) {
         bookRepository.deleteById(id);
         commentRepository.deleteByBookId(id);
     }
 
     @Override
     @Transactional
-    public void saveGenre(long genreid, String genreName) {
+    public void saveGenre(String genreid, String genreName) {
         genreRepository.save(new Genre(genreid, genreName));
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Genre> getGenreById(long id) {
+    public Optional<Genre> getGenreById(String id) {
         return genreRepository.findById(id);
     }
 
@@ -88,23 +85,19 @@ public class LibraryServiceImpl implements LibraryService {
 
     @Override
     @Transactional
-    public void deleteGenreById(long id) {
+    public void deleteGenreById(String id) {
         genreRepository.deleteById(id);
-//        List<Book> genreBooks = bookRepository.findByGenreId(id);
-//        for(Book book: genreBooks) {
-//            deleteBookById(book.getId());
-//        }
     }
 
     @Override
     @Transactional
-    public void saveAuthor(long authorId, String authorName) {
+    public void saveAuthor(String authorId, String authorName) {
         authorRepository.save(new Author(authorId, authorName));
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Author> getAuthorById(long id) {
+    public Optional<Author> getAuthorById(String id) {
         return authorRepository.findById(id);
     }
 
@@ -116,24 +109,20 @@ public class LibraryServiceImpl implements LibraryService {
 
     @Override
     @Transactional
-    public void deleteAuthorById(long id) {
+    public void deleteAuthorById(String id) {
         authorRepository.deleteById(id);
-//        List<Book> authorBooks = bookRepository.findByAuthorId(id);
-//        for(Book book: authorBooks){
-//            bookRepository.deleteById(book.getId());
-//        }
     }
 
     @Override
     @Transactional
-    public void saveComment(long commentId, String text, long bookId) {
+    public void saveComment(String commentId, String text, String bookId) {
         Book book = getBookById(bookId).orElseThrow(() -> new RuntimeException("book does not exist"));
         commentRepository.save(new Comment(commentId, text, book));
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Comment> getCommentById(long id) {
+    public Optional<Comment> getCommentById(String id) {
         return commentRepository.findById(id);
     }
 
@@ -145,13 +134,13 @@ public class LibraryServiceImpl implements LibraryService {
 
     @Override
     @Transactional
-    public void deleteCommentById(long id) {
+    public void deleteCommentById(String id) {
         commentRepository.deleteById(id);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Comment> getCommentsByBookId(long id) {
+    public List<Comment> getCommentsByBookId(String id) {
         return commentRepository.findByBookId(id);
     }
 }

@@ -21,17 +21,16 @@ public class ApplicationCommands {
     private final LibraryService libraryService;
 
     @ShellMethod(value = "save book", key = {"sb", "save-book"})
-    public String saveBook(@ShellOption("-bid") long bookId,
+    public String saveBook(@ShellOption(value = "-bid", defaultValue = "") String bookId,
                              @ShellOption("-n") String bookName,
-                             @ShellOption("-aid") long authorId,
-                             @ShellOption("-gid") long genreId) {
-
+                             @ShellOption("-aid") String authorId,
+                             @ShellOption("-gid") String genreId) {
         libraryService.saveBook(bookId, bookName, authorId, genreId);
         return "the book has been saved";
     }
 
     @ShellMethod(value = "save genre", key = {"sg", "save-genre"})
-    public String saveGenre(@ShellOption("-id") long genreId,
+    public String saveGenre(@ShellOption(value = "-id", defaultValue = "") String genreId,
                               @ShellOption("-n") String genreName) {
 
         libraryService.saveGenre(genreId, genreName);
@@ -39,7 +38,7 @@ public class ApplicationCommands {
     }
 
     @ShellMethod(value = "save author", key = {"sa", "save-author"})
-    public String saveAuthor(@ShellOption("-id") long authorid,
+    public String saveAuthor(@ShellOption(value = "-id", defaultValue = "") String authorid,
                               @ShellOption("-n") String authorName) {
 
         libraryService.saveAuthor(authorid, authorName);
@@ -47,51 +46,51 @@ public class ApplicationCommands {
     }
 
     @ShellMethod(value = "save comment", key = {"sc", "save-comment"})
-    public String saveComment(@ShellOption("-id") long commentId,
+    public String saveComment(@ShellOption(value = "-id", defaultValue = "") String commentId,
                              @ShellOption("-t") String text,
-                              @ShellOption("-bid") long bookId) {
+                              @ShellOption("-bid") String bookId) {
 
         libraryService.saveComment(commentId, text, bookId);
         return "the genre has been saved";
     }
 
     @ShellMethod(value = "delete book", key = {"db", "delete-book"})
-    public String deleteBook(@ShellOption("-id") long bookId) {
+    public String deleteBook(@ShellOption("-id") String bookId) {
         libraryService.deleteBookById(bookId);
 
         return "the book has been deleted";
     }
 
     @ShellMethod(value = "delete genre", key = {"dg", "delete-genre"})
-    public String deleteGenre(@ShellOption("-id") long genreId) {
+    public String deleteGenre(@ShellOption("-id") String genreId) {
         libraryService.deleteGenreById(genreId);
 
         return "the genre has been deleted";
     }
 
     @ShellMethod(value = "delete author", key = {"da", "delete-author"})
-    public String deleteAuthor(@ShellOption("-id") long authorId) {
+    public String deleteAuthor(@ShellOption("-id") String authorId) {
         libraryService.deleteBookById(authorId);
 
         return "the author has been deleted";
     }
 
     @ShellMethod(value = "delete comment", key = {"dc", "delete-comment"})
-    public String deleteComment(@ShellOption("-id") long commentId) {
+    public String deleteComment(@ShellOption("-id") String commentId) {
         libraryService.deleteCommentById(commentId);
 
         return "the comment has been deleted";
     }
 
     @ShellMethod(value = "get book", key = {"gb", "get-book"})
-    public String getBook(@ShellOption(value = "-id") long bookId) {
+    public String getBook(@ShellOption(value = "-id") String bookId) {
         Book bookById = libraryService.getBookById(bookId).orElseThrow(() -> new RuntimeException("book not found"));
 
         return RepresentationUtil.bookView(bookById);
     }
 
     @ShellMethod(value = "get comment", key = {"gc", "get-comment"})
-    public String getComment(@ShellOption(value = "-id") long commentId) {
+    public String getComment(@ShellOption(value = "-id") String commentId) {
         Comment commentById = libraryService.getCommentById(commentId).orElseThrow(() -> new RuntimeException("comment not found"));
 
         return RepresentationUtil.commentView(commentById);
@@ -144,7 +143,7 @@ public class ApplicationCommands {
     }
 
     @ShellMethod(value = "get comments", key = {"gbc", "get-book-comments"})
-    public String getBookComments(@ShellOption("-bid") long bookId) {
+    public String getBookComments(@ShellOption("-bid") String bookId) {
 
         List<Comment> bookComments = libraryService.getCommentsByBookId(bookId);
 

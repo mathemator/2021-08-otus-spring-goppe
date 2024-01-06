@@ -25,22 +25,22 @@ public class DatabaseChangelog {
                        BookRepository bookRepository,
                        CommentRepository commentRepository,
                        GenreRepository genreRepository) {
-        Genre novel = new Genre(1, "NOVEL");
+        Genre novel = new Genre("1", "NOVEL");
         genreRepository.save(novel);
-        Genre comedy = new Genre(2, "COMEDY");
+        Genre comedy = new Genre("2", "COMEDY");
         genreRepository.save(comedy);
 
-        Author franzKafka = new Author(1, "FRANZ KAFKA");
+        Author franzKafka = new Author("1", "FRANZ KAFKA");
         authorRepository.save(franzKafka);
-        Author nikolayGogol = new Author(2, "NIKOLAY GOGOL");
+        Author nikolayGogol = new Author("2", "NIKOLAY GOGOL");
         authorRepository.save(nikolayGogol);
 
-        Book castle = new Book(1, "THE CASTLE", franzKafka, novel);
+        Book castle = new Book("1", "THE CASTLE", franzKafka, novel);
         bookRepository.save(castle);
-        Book govins = new Book(2, "THE GOVERNMENT INSPECTOR", nikolayGogol, comedy);
+        Book govins = new Book("2", "THE GOVERNMENT INSPECTOR", nikolayGogol, comedy);
         bookRepository.save(govins);
 
-        commentRepository.save(new Comment(1, "GOOD STUFF", castle));
-        commentRepository.save(new Comment(2, "GOOD TOO", govins));
+        commentRepository.save(new Comment("1", "GOOD STUFF", castle));
+        commentRepository.save(new Comment("2", "GOOD TOO", govins));
     }
 }

@@ -13,7 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 public class Author {
 
     @Id
-    private long id;
+    private String id;
 
     @Field(name = "name")
     private String name;

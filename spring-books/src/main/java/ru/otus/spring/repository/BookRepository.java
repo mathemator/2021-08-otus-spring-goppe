@@ -11,11 +11,11 @@ public interface BookRepository extends MongoRepository<Book, Long> {
 
     Book save(Book book);
 
-    Optional<Book> findById(long id);
+    Optional<Book> findById(String id);
 
     List<Book> findAll();
 
-    List<Book> findByGenreId(long id);
+    List<Book> findByGenreId(String id);
 
     @Query("{'genre.name' : ?0}")
     List<Book> findByGenreName(String genreName);
@@ -23,9 +23,9 @@ public interface BookRepository extends MongoRepository<Book, Long> {
     @Query(value = "{'author.name' : ?0 }", fields = "{ 'author.name' : 1 } ")
     List<Book> findByAuthorName(String authorName);
 
-    List<Book> findByAuthorId(long id);
+    List<Book> findByAuthorId(String id);
 
-    void deleteById(long id);
+    void deleteById(String id);
 
-    void deleteByGenreId(long id);
+    void deleteByGenreId(String id);
 }

@@ -15,7 +15,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 public class Comment {
 
     @Id
-    private long id;
+    private String id;
 
     @Field(name = "text")
     private String text;

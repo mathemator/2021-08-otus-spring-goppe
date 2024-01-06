@@ -10,9 +10,9 @@ public interface AuthorRepository extends MongoRepository<Author, Long> {
 
     Author save(Author author);
 
-    Optional<Author> findById(long id);
+    Optional<Author> findById(String id);
 
     List<Author> findAll();
 
-    void deleteById(long id);
+    void deleteById(String id);
 }

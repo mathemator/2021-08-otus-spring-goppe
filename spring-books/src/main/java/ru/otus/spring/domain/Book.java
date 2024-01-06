@@ -14,7 +14,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 public class Book {
 
     @Id
-    private long id;
+    private String id;
 
     @Field(name = "title")
     private String title;

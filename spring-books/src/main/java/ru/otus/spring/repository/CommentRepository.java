@@ -10,13 +10,13 @@ public interface CommentRepository extends MongoRepository<Comment, Long> {
 
     Comment save(Comment author);
 
-    Optional<Comment> findById(long id);
+    Optional<Comment> findById(String id);
 
     List<Comment> findAll();
 
-    List<Comment> findByBookId(long id);
+    List<Comment> findByBookId(String id);
 
-    void deleteById(long id);
+    void deleteById(String id);
 
-    void deleteByBookId(long id);
+    void deleteByBookId(String id);
 }

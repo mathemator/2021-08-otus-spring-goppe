@@ -10,9 +10,9 @@ import java.util.Optional;
 
 public interface LibraryService {
 
-    Optional<Book> getBookById(long id);
+    Optional<Book> getBookById(String id);
 
-    void saveBook(long bookId, String title, long authorId, long genreId);
+    void saveBook(String bookId, String title, String authorId, String genreId);
 
     List<Book> getAllBooks();
 
@@ -20,35 +20,35 @@ public interface LibraryService {
 
     List<Book> getBooksByAuthor(String authorName);
 
-    void deleteBookById(long id);
+    void deleteBookById(String id);
 
-    void saveGenre(long genreId, String genreName);
+    void saveGenre(String genreId, String genreName);
 
-    Optional<Genre> getGenreById(long id);
+    Optional<Genre> getGenreById(String id);
 
     List<Genre> getAllGenres();
 
-    void deleteGenreById(long id);
+    void deleteGenreById(String id);
 
-    void saveAuthor(long authorId, String authorName);
+    void saveAuthor(String authorId, String authorName);
 
-    Optional<Author> getAuthorById(long id);
+    Optional<Author> getAuthorById(String id);
 
     List<Author> getAllAuthors();
 
-    void deleteAuthorById(long id);
+    void deleteAuthorById(String id);
 
-    void saveComment(long commentId,
+    void saveComment(String commentId,
                      String text,
-                     long bookId);
+                     String bookId);
 
-    Optional<Comment> getCommentById(long id);
+    Optional<Comment> getCommentById(String id);
 
     List<Comment> getAllComments();
 
-    void deleteCommentById(long id);
+    void deleteCommentById(String id);
 
-    List<Comment> getCommentsByBookId(long id);
+    List<Comment> getCommentsByBookId(String id);
 
 
 }

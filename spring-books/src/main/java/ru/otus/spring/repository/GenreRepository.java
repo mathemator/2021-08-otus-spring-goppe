@@ -9,9 +9,9 @@ import java.util.Optional;
 public interface GenreRepository extends MongoRepository<Genre, Long> {
     Genre save(Genre genre);
 
-    Optional<Genre> findById(long id);
+    Optional<Genre> findById(String id);
 
     List<Genre> findAll();
 
-    void deleteById(long id);
+    void deleteById(String id);
 }
