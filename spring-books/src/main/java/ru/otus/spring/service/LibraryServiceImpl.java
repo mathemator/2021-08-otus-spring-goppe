@@ -30,6 +30,7 @@ public class LibraryServiceImpl implements LibraryService {
     public Optional<Book> getBookById(long id) {
         return bookRepository.findById(id);
     }
+
     @Override
     @Transactional
     public void saveBook(long bookId, String title, long authorId, long genreId) {
@@ -89,10 +90,10 @@ public class LibraryServiceImpl implements LibraryService {
     @Transactional
     public void deleteGenreById(long id) {
         genreRepository.deleteById(id);
-        List<Book> genreBooks = bookRepository.findByGenreId(id);
-        for(Book book: genreBooks) {
-            deleteBookById(book.getId());
-        }
+//        List<Book> genreBooks = bookRepository.findByGenreId(id);
+//        for(Book book: genreBooks) {
+//            deleteBookById(book.getId());
+//        }
     }
 
     @Override
@@ -117,10 +118,10 @@ public class LibraryServiceImpl implements LibraryService {
     @Transactional
     public void deleteAuthorById(long id) {
         authorRepository.deleteById(id);
-        List<Book> authorBooks = bookRepository.findByAuthorId(id);
-        for(Book book: authorBooks){
-            bookRepository.deleteById(book.getId());
-        }
+//        List<Book> authorBooks = bookRepository.findByAuthorId(id);
+//        for(Book book: authorBooks){
+//            bookRepository.deleteById(book.getId());
+//        }
     }
 
     @Override

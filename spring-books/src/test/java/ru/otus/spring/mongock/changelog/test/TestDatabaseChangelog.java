@@ -28,7 +28,7 @@ public class TestDatabaseChangelog {
         genreRepository.save(new Genre(1, "NOVEL"));
         genreRepository.save(new Genre(2, "COMEDY"));
 
-        authorRepository.save(new Author(1, "FRANZ KARKA"));
+        authorRepository.save(new Author(1, "FRANZ KAFKA"));
         authorRepository.save(new Author(2, "NIKOLAY GOGOL"));
 
         bookRepository.save(new Book(1, "THE CASTLE", new Author(1, "FRANZ KAFKA"), new Genre(1, "NOVEL")));

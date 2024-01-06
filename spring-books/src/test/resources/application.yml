@@ -5,7 +5,7 @@ spring:
       database: test
 
 mongock:
-  runner-type: "InitializingBean"
+  runner-type: initializingbean
   change-logs-scan-package:
     - ru.otus.spring.mongock.changelog.test
 
