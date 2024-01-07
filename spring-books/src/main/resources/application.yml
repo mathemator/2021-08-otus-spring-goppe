@@ -6,7 +6,7 @@ spring:
       database: company
 
 mongock:
-  runner-type: "InitializingBean"
+  runner-type: initializingbean
   change-logs-scan-package:
     - ru.otus.spring.mongock.changelog
 

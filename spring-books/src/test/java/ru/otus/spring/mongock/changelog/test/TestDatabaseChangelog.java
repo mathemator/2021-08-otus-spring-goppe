@@ -25,28 +25,31 @@ public class TestDatabaseChangelog {
                        BookRepository bookRepository,
                        CommentRepository commentRepository,
                        GenreRepository genreRepository) {
-        genreRepository.save(new Genre(1, "NOVEL"));
-        genreRepository.save(new Genre(2, "COMEDY"));
+        genreRepository.save(new Genre("1", "NOVEL"));
+        genreRepository.save(new Genre("2", "COMEDY"));
 
-        authorRepository.save(new Author(1, "FRANZ KAFKA"));
-        authorRepository.save(new Author(2, "NIKOLAY GOGOL"));
+        authorRepository.save(new Author("1", "FRANZ KAFKA"));
+        authorRepository.save(new Author("2", "NIKOLAY GOGOL"));
 
-        bookRepository.save(new Book(1, "THE CASTLE", new Author(1, "FRANZ KAFKA"), new Genre(1, "NOVEL")));
-        bookRepository.save(new Book(2, "THE GOVERNMENT INSPECTOR", new Author(2, "NIKOLAY GOGOL"), new Genre(2, "COMEDY")));
-
-        commentRepository.save(new Comment(1, "GOOD STUFF", new Book()));
-        commentRepository.save(new Comment(2, "GOOD TOO", new Book()));
+        Book castle = new Book("1", "THE CASTLE", new Author("1", "FRANZ KAFKA"), new Genre("1", "NOVEL"));
+        bookRepository.save(castle);
+        Book govins = new Book("2", "THE GOVERNMENT INSPECTOR", new Author("2", "NIKOLAY GOGOL"), new Genre("2", "COMEDY"));
+        bookRepository.save(govins);
+        Book expected3 = new Book("3", "DEAD SOULS", new Author("2", "NIKOLAY GOGOL"), new Genre("1", "NOVEL"));
+        bookRepository.save(expected3);
+        commentRepository.save(new Comment("1", "GOOD STUFF", castle));
+        commentRepository.save(new Comment("2", "GOOD TOO", govins));
     }
 
     @ChangeSet(order = "003", id = "insertAdditionalData", author = "mathemator")
     public void insert(AuthorRepository authorRepository,
                        BookRepository bookRepository,
                        GenreRepository genreRepository) {
-        genreRepository.save(new Genre(3, "TEST GENRE"));
+        genreRepository.save(new Genre("3", "TEST GENRE"));
 
-        authorRepository.save(new Author(3, "TEST AUTHOR"));
+        authorRepository.save(new Author("3", "TEST AUTHOR"));
 
-        bookRepository.save(new Book(1, "THE CASTLE", new Author(1, "FRANZ KAFKA"), new Genre(1, "NOVEL")));
-        bookRepository.save(new Book(3, "THE DEAD SOULS", new Author(2, "NIKOLAY GOGOL"), new Genre(1, "NOVEL")));
+        bookRepository.save(new Book("1", "THE CASTLE", new Author("1", "FRANZ KAFKA"), new Genre("1", "NOVEL")));
+        bookRepository.save(new Book("3", "DEAD SOULS", new Author("2", "NIKOLAY GOGOL"), new Genre("1", "NOVEL")));
     }
 }

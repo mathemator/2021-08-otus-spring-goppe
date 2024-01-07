@@ -27,24 +27,24 @@ class CommentRepositoryTest {
 
     @Test
     void save() {
-        Book book = new Book(1, "THE CASTLE", new Author(1, "FRANZ KAFKA"), new Genre(1, "NOVEL"));
-        Comment expected = new Comment(3, "NEW Comment", book);
+        Book book = new Book("1", "THE CASTLE", new Author("1", "FRANZ KAFKA"), new Genre("1", "NOVEL"));
+        Comment expected = new Comment("3", "NEW Comment", book);
         Comment actual = commentRepository.save(expected);
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
     }
 
     @Test
     void getById() {
-        Optional<Comment> optionalComment = commentRepository.findById(1);
-        Comment expectedComment = mongoTemplate.findOne(Query.query(Criteria.where("id").is(1)), Comment.class);
+        Optional<Comment> optionalComment = commentRepository.findById("1");
+        Comment expectedComment = mongoTemplate.findOne(Query.query(Criteria.where("id").is("1")), Comment.class);
         assertThat(optionalComment).isPresent().get()
                 .usingRecursiveComparison().isEqualTo(expectedComment);
     }
 
     @Test
     void getAll() {
-        Comment expected = new Comment(1, "GOOD STUFF", new Book());
-        Comment expected2 = new Comment(2, "GOOD TOO", new Book());
+        Comment expected = new Comment("1", "GOOD STUFF", new Book());
+        Comment expected2 = new Comment("2", "GOOD TOO", new Book());
         List<Comment> actualCommentList = commentRepository.findAll();
 
         assertThat(actualCommentList)
@@ -54,8 +54,8 @@ class CommentRepositoryTest {
 
     @Test
     void getByBookId() {
-        Comment expected = new Comment(1, "GOOD STUFF", new Book());
-        List<Comment> actualCommentList = commentRepository.findByBookId(1L);
+        Comment expected = new Comment("1", "GOOD STUFF", new Book());
+        List<Comment> actualCommentList = commentRepository.findByBookId("1");
         assertThat(actualCommentList)
                 .usingDefaultComparator()
                 .containsExactlyInAnyOrder(expected);
@@ -63,10 +63,10 @@ class CommentRepositoryTest {
 
     @Test
     void deleteById() {
-        assertThat(commentRepository.findById(2).isPresent());
+        assertThat(commentRepository.findById("2").isPresent());
 
-        commentRepository.deleteById(2);
+        commentRepository.deleteById("2");
 
-        assertThat(commentRepository.findById(2).isEmpty());
+        assertThat(commentRepository.findById("2").isEmpty());
     }
 }

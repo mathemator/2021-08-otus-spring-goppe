@@ -26,26 +26,28 @@ class BookRepositoryJpaTest {
 
     @Test
     void save() {
-        Book expectedBook = new Book(2, "TEST", new Author(2, "TEST AUTHOR 2"), new Genre(2, "TEST GENRE 2"));
+        Book expectedBook = new Book("2", "TEST", new Author("2", "TEST AUTHOR 2"), new Genre("2", "TEST GENRE 2"));
         Book savedBook = bookRepository.save(expectedBook);
         assertThat(savedBook).usingRecursiveComparison().isEqualTo(expectedBook);
     }
 
     @Test
     void getById() {
-        Optional<Book> optionalbook = bookRepository.findById(1);
-        Book expectedBook = mongoTemplate.findOne(Query.query(Criteria.where("id").is(1)), Book.class);
+        Optional<Book> optionalbook = bookRepository.findById("1");
+        Book expectedBook = mongoTemplate.findOne(Query.query(Criteria.where("id").is("1")), Book.class);
         assertThat(optionalbook).isPresent().get()
                 .usingRecursiveComparison().isEqualTo(expectedBook);
     }
 
     @Test
     void getAll() {
-        Book expected = new Book(1, "THE CASTLE", new Author(1, "FRANZ KAFKA"), new Genre(1, "NOVEL"));
+        Book expected = new Book("1", "THE CASTLE", new Author("1", "FRANZ KAFKA"), new Genre("1", "NOVEL"));
 
-        Book expected2 = new Book(2, "THE GOVERNMENT INSPECTOR", new Author(2, "NIKOLAY GOGOL"), new Genre(2, "COMEDY"));
+        Book expected2 = new Book("2", "THE GOVERNMENT INSPECTOR", new Author("2", "NIKOLAY GOGOL"), new Genre("2", "COMEDY"));
 
-        Book expected3 = new Book(3, "DEAD SOULS", new Author(2, "NIKOLAY GOGOL"), new Genre(1, "NOVEL"));
+        Book expected3 = new Book("3", "DEAD SOULS", new Author("2", "NIKOLAY GOGOL"), new Genre("1", "NOVEL"));
+
+
         List<Book> actualAuthorList = bookRepository.findAll();
         assertThat(actualAuthorList)
                 .usingRecursiveFieldByFieldElementComparator()
@@ -54,8 +56,8 @@ class BookRepositoryJpaTest {
 
     @Test
     void getByGenre() {
-        Book expected = new Book(1, "THE CASTLE", new Author(1, "FRANZ KAFKA"), new Genre(1, "NOVEL"));
-        Book expected3 = new Book(3, "DEAD SOULS", new Author(2, "NIKOLAY GOGOL"), new Genre(1, "NOVEL"));
+        Book expected = new Book("1", "THE CASTLE", new Author("1", "FRANZ KAFKA"), new Genre("1", "NOVEL"));
+        Book expected3 = new Book("3", "DEAD SOULS", new Author("2", "NIKOLAY GOGOL"), new Genre("1", "NOVEL"));
         List<Book> actualAuthorList = bookRepository.findByGenreName("NOVEL");
         assertThat(actualAuthorList)
                 .usingRecursiveFieldByFieldElementComparator()
@@ -64,9 +66,9 @@ class BookRepositoryJpaTest {
 
     @Test
     void getByAuthor() {
-        Book expected2 = new Book(2, "THE GOVERNMENT INSPECTOR", new Author(2, "NIKOLAY GOGOL"), new Genre(2, "COMEDY"));
+        Book expected2 = new Book("2", "THE GOVERNMENT INSPECTOR", new Author("2", "NIKOLAY GOGOL"), new Genre("2", "COMEDY"));
 
-        Book expected3 = new Book(3, "DEAD SOULS", new Author(2, "NIKOLAY GOGOL"), new Genre(1, "NOVEL"));
+        Book expected3 = new Book("3", "DEAD SOULS", new Author("2", "NIKOLAY GOGOL"), new Genre("1", "NOVEL"));
         List<Book> actualAuthorList = bookRepository.findByAuthorName("NIKOLAY GOGOL");
         assertThat(actualAuthorList)
                 .usingRecursiveFieldByFieldElementComparator()
@@ -75,11 +77,11 @@ class BookRepositoryJpaTest {
 
     @Test
     void deleteById() {
-        assertThat(bookRepository.findById(3).isPresent());
+        assertThat(bookRepository.findById("3").isPresent());
 
-        bookRepository.deleteById(3);
+        bookRepository.deleteById("3");
 
-        assertThat(bookRepository.findById(3).isEmpty());
+        assertThat(bookRepository.findById("3").isEmpty());
     }
 
 }
