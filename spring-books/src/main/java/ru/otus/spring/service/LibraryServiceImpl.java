@@ -57,14 +57,6 @@ public class LibraryServiceImpl implements LibraryService {
     public List<Book> getBooksByAuthor(String authorName) {
         return bookRepository.findByAuthorName(authorName.toUpperCase());
     }
-
-    @Override
-    @Transactional
-    public void deleteBookById(String id) {
-        bookRepository.deleteById(id);
-        commentRepository.deleteByBookId(id);
-    }
-
     @Override
     @Transactional
     public void saveGenre(String genreid, String genreName) {
@@ -83,11 +75,6 @@ public class LibraryServiceImpl implements LibraryService {
         return genreRepository.findAll();
     }
 
-    @Override
-    @Transactional
-    public void deleteGenreById(String id) {
-        genreRepository.deleteById(id);
-    }
 
     @Override
     @Transactional
@@ -109,12 +96,6 @@ public class LibraryServiceImpl implements LibraryService {
 
     @Override
     @Transactional
-    public void deleteAuthorById(String id) {
-        authorRepository.deleteById(id);
-    }
-
-    @Override
-    @Transactional
     public void saveComment(String commentId, String text, String bookId) {
         Book book = getBookById(bookId).orElseThrow(() -> new RuntimeException("book does not exist"));
         commentRepository.save(new Comment(commentId, text, book));
@@ -132,10 +113,34 @@ public class LibraryServiceImpl implements LibraryService {
         return commentRepository.findAll();
     }
 
+
+    @Override
+    @Transactional
+    public void deleteAuthorById(String id) {
+        bookRepository.deleteAllByAuthorId(id);
+        commentRepository.deleteAllByBookAuthorId(id);
+        authorRepository.deleteById(id);
+    }
+
     @Override
     @Transactional
     public void deleteCommentById(String id) {
         commentRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public void deleteBookById(String id) {
+        bookRepository.deleteById(id);
+        commentRepository.deleteByBookId(id);
+    }
+
+    @Override
+    @Transactional
+    public void deleteGenreById(String id) {
+        bookRepository.deleteAllByGenreId(id);
+        commentRepository.deleteAllByBookGenreId(id);
+        genreRepository.deleteById(id);
     }
 
     @Override

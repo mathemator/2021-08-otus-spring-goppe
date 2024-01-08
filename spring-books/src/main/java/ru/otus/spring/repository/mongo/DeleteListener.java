@@ -14,6 +14,7 @@ import ru.otus.spring.domain.Book;
 import ru.otus.spring.domain.Comment;
 import ru.otus.spring.domain.Genre;
 
+
 @Component
 public class DeleteListener extends AbstractMongoEventListener<Object> {
     @Autowired

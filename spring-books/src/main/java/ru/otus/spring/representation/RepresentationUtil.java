@@ -24,6 +24,6 @@ public class RepresentationUtil {
     }
 
     public String commentView(Comment comment) {
-        return String.format("bookId: %s, commentId: %d, text: %s", comment.getBook().getId(), comment.getId(), comment.getText());
+        return String.format("bookId: %s, commentId: %s, text: %s", comment.getBook().getId(), comment.getId(), comment.getText());
     }
 }

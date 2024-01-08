@@ -1,0 +1,68 @@
+Index: spring-books/src/main/java/ru/otus/spring/Main.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package ru.otus.spring;\r\n\r\nimport org.h2.tools.Console;\r\nimport org.springframework.boot.SpringApplication;\r\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\r\nimport org.springframework.context.ConfigurableApplicationContext;\r\nimport ru.otus.spring.domain.Book;\r\nimport ru.otus.spring.domain.Comment;\r\nimport ru.otus.spring.repository.BookRepository;\r\nimport ru.otus.spring.repository.CommentRepository;\r\n\r\nimport java.sql.SQLException;\r\nimport java.util.List;\r\n\r\n@SpringBootApplication\r\npublic class Main {\r\n\r\n    public static void main(String[] args) throws SQLException {\r\n\r\n        ConfigurableApplicationContext run = SpringApplication.run(Main.class);\r\n\r\n        Console.main();\r\n\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/spring-books/src/main/java/ru/otus/spring/Main.java b/spring-books/src/main/java/ru/otus/spring/Main.java
+--- a/spring-books/src/main/java/ru/otus/spring/Main.java	(revision 775cec62d5f41fdddf5363e6b79b2576b4c8bdd8)
++++ b/spring-books/src/main/java/ru/otus/spring/Main.java	(date 1704539832034)
+@@ -17,7 +17,7 @@
+ 
+     public static void main(String[] args) throws SQLException {
+ 
+-        ConfigurableApplicationContext run = SpringApplication.run(Main.class);
++        ConfigurableApplicationContext run = SpringApplication.run(Main.class, args);
+ 
+         Console.main();
+ 
+Index: spring-books/src/main/resources/application.yml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>spring:\r\n  datasource:\r\n    url: jdbc:h2:mem:testdb\r\n    initialization-mode: always\r\n\r\n  jpa:\r\n    generate-ddl: false\r\n    hibernate:\r\n      ddl-auto: none\r\n\r\n    show-sql: true\r\n\r\n  h2:\r\n    console:\r\n      path: /h2-console\r\n      settings:\r\n        web-allow-others: true\r\n\r\nlogging:\r\n  level:\r\n    ROOT: ERROR
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/spring-books/src/main/resources/application.yml b/spring-books/src/main/resources/application.yml
+--- a/spring-books/src/main/resources/application.yml	(revision 775cec62d5f41fdddf5363e6b79b2576b4c8bdd8)
++++ b/spring-books/src/main/resources/application.yml	(date 1704540598013)
+@@ -1,12 +1,15 @@
+ spring:
+   datasource:
+     url: jdbc:h2:mem:testdb
+-    initialization-mode: always
+ 
+   jpa:
+     generate-ddl: false
+     hibernate:
+-      ddl-auto: none
++      ddl-auto: create
++
++    properties:
++      hibernate:
++        format_sql: true
+ 
+     show-sql: true
+ 
+@@ -15,6 +18,9 @@
+       path: /h2-console
+       settings:
+         web-allow-others: true
++  sql:
++    init:
++      mode: always
+ 
+ logging:
+   level:
+Index: spring-shell.log
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/spring-shell.log b/spring-shell.log
+new file mode 100644
+--- /dev/null	(date 1704539917897)
++++ b/spring-shell.log	(date 1704539917897)
+@@ -0,0 +1,1 @@
++1704539917895:gab

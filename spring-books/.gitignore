@@ -2,3 +2,10 @@
 *.iml
 
 target/
+buildOutputCleanup.lock
+checksums.lock
+fileHashes.lock
+md5-checksums.bin
+sha1-checksums.bin
+spring-shell.log
+spring-shell.log
